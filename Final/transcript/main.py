@@ -1,8 +1,12 @@
+# This work is done by Group 2
+# Edgar Esguerra Jr. - 2021-05780-MN-0 - 25%
+# Kenji Ilao - 2021-05784-MN-0 - 25%
+# Shin Lim - 2021-05789-MN-0 - 25%
+# Siegfred Mina - 2021-05794-MN-0 - 25%
+
 import csv
 from os import system
 from datetime import date, datetime
-
-
 
 def startFeature():
     system("cls")
@@ -60,7 +64,6 @@ def detailsFeature(student):
     file = open(f'stdID{student["stdID"]}.txt', 'w')
     with file as f:
         f.write(f"Name: {student['name']}\nstdID: {student['stdID']}\nLevel(s): {student['level']}\nNumber of Terms: {student['terms']}\nCollege(s): {student['college']}\nDepartment(s): {student['department']}")
-
 
 def statisticsFeature(student_level, student_id):
     data = []
@@ -173,11 +176,6 @@ def statisticsFeature(student_level, student_id):
         file.write(g_term)
         file.write(f"Maximum grade(s) and in which term(s): {max_grade}\nMinimum grade(s) and in which term(s): {min_grade}\nDo you have any repeated course(s)?: Y")
 
-
-    
-
-    
-
 def majorTranscriptFeature(student_level, student_id):
     data = []
 
@@ -268,7 +266,6 @@ def majorTranscriptFeature(student_level, student_id):
 
     history.append(new_h)
     
-
 def minorTranscriptFeature(student_level, student_id):
     data = []
 
@@ -446,9 +443,6 @@ def previousRequestsFeature(history, student_id):
         file.write("{:<11} {:<15} {:<12}\n".format(i['req'], i['date'], i['time']))
     file.close()
         
-
-    
-
 def newStudentFeature():
 
     tempheader = []
@@ -547,4 +541,3 @@ if __name__ == "__main__":
             system('cls')
             print("Invalid Input!")
             system('pause')
-         
