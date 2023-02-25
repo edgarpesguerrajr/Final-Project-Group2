@@ -11,6 +11,7 @@ from datetime import date, datetime
 
 
 class App:
+    # Initialize variables
     def __init__(self):
         self.student_level = ' '
         self.student_type = ' '
@@ -19,18 +20,21 @@ class App:
         self.history = []
         self.student = {}
 
+        # Call the startFeature() function
         self.startFeature()
 
-
+# Load student data from CSV file and prompt user to select student level and type
     def startFeature(self):
         system("cls")
 
+        # Read data from CSV file
         tempheader = []
 
         file = open('studentDetails.csv')
         reader = csv.reader(file)
         tempheader = next(reader)
 
+        # Parse CSV data and store in self.data list
         for row in reader:
             temp = {
                 "serial": row[0],
@@ -46,11 +50,12 @@ class App:
             }
             self.data.append(temp)
 
+        # Prompt user to select student level and type
         # TODO: ONLY ASK FOR DEGREE/TYPE WHEN GRADUATE OR BOTH
         # TODO: ACCEPTING INVALID INPUT (STUDENT LEVEL AND STUDENT TYPE)
-        self.student_level = input("Select Student Level:\nUndergraduate (U)\nGraduate (G)\nBoth (B)\nChoice: ").upper()
-        self.student_type = input("\nSelect your level type:\nMaster (M)\nDoctorate (D)\nBoth (B0)\nChoice: ").upper()
-
+        self.getStudentLevel()
+        
+        # Prompt user to enter student ID and check if it exists in the data list
         fix = True
         while fix:
             self.student_id = input("Enter your Student ID: ")
@@ -59,9 +64,11 @@ class App:
                     self.student = i
                     fix = False
 
+        # Pause the program and clear the screen
         system('pause')
         system('cls')
 
+        # Call the menuFeature() function
         self.menuFeature()
         
     # General Menu
@@ -71,7 +78,22 @@ class App:
         #ASKS FOR CHOICE
         self.menu_manager()
 
-
+    def getStudentLevel(self):
+        self.student_level = input("Select Student Level:\nUndergraduate (U)\nGraduate (G)\nBoth (B)\nChoice: ").upper()
+        
+        if self.student_level == "G" or self.student_level == "B":
+            self.getDegreeLevel()
+        elif self.student_level != "U":
+            ValueError
+            print("\nPlease U/G/B\n")
+            self.getStudentLevel()
+            
+    def getDegreeLevel(self):
+        self.student_type = input("\nSelect your level type:\nMaster (M)\nDoctorate (D)\nBoth (B0)\nChoice: ").upper()
+        if self.student_type != "M" and self.student_type != "D" and self.student_type != "B0":
+            ValueError
+            print("Please M/D/B0")
+            self.getDegreeLevel()
 
 
     # Display Details and save it in a text file
