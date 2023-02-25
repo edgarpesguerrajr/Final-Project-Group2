@@ -4,11 +4,13 @@
 # Shin Lim - 2021-05789-MN-0 - 25%
 # Siegfred Lorelle Mina - 2021-05794-MN-0 - 25%
 
+
+# TODO: ADD COMMENTS
+
 import csv
 import sys
-from os import system
+import os
 from datetime import date, datetime
-
 
 class App:
     # Initialize variables
@@ -25,8 +27,6 @@ class App:
 
 # Load student data from CSV file and prompt user to select student level and type
     def startFeature(self):
-        system("cls")
-
         # Read data from CSV file
         tempheader = []
 
@@ -50,9 +50,7 @@ class App:
             }
             self.data.append(temp)
 
-        # Prompt user to select student level and type
-        # TODO: ONLY ASK FOR DEGREE/TYPE WHEN GRADUATE OR BOTH
-        # TODO: ACCEPTING INVALID INPUT (STUDENT LEVEL AND STUDENT TYPE)
+        # Prompt user to select student level and type/degree
         self.getStudentLevel()
         
         # Prompt user to enter student ID and check if it exists in the data list
@@ -65,17 +63,17 @@ class App:
                     fix = False
 
         # Pause the program and clear the screen
-        system('pause')
-        system('cls')
+        buffer()
+        clearScreen()
 
-        # Call the menuFeature() function
+        # Redirect to menu screen
         self.menuFeature()
         
     # General Menu
     def menuFeature(self):
         print('Student Transcript Generation System\n====================================================\n1. Student Details\n2. Statistics\n3. Transcript based on major courses\n4. Transcript based on minor courses\n5. Full transcript\n6. Previous transcript requests\n7. Select another student\n8. Terminate system\n====================================================')
 
-        #ASKS FOR CHOICE
+        # Asks the user what to do, then redirects it to that method
         self.menu_manager()
 
     def getStudentLevel(self):
@@ -472,7 +470,7 @@ class App:
             print ("{:<11} {:<15} {:<12}".format(i['req'], i['date'], i['time']))
             file.write("{:<11} {:<15} {:<12}\n".format(i['req'], i['date'], i['time']))
         file.close()
-            
+
     def newStudentFeature(self):
 
         tempheader = []
@@ -496,7 +494,7 @@ class App:
             }
             self.data.append(temp)
 
-
+        # TODO: USE GET STUDENT LEVEL AND DEGREE LEVEL
         self.student_level = input("Select Student Level:\nUndergraduate (U)\nGraduate (G)\nBoth (B)\nChoice: ").upper()
         self.student_type = input("\nSelect your level type:\nMaster (M)\nDoctorate (D)\nBoth (B0)\nChoice: ").upper()
 
@@ -509,57 +507,46 @@ class App:
                     fix = False
 
     def terminateFeature(self):
-        sys.exit("Goodbye!")
+        sys.exit("Goodbye!\n")
 
     def menu_manager(self):
         choice = input("Enter your Feature: ")
-        system('cls')
+        clearScreen()
 
         if choice == '1':
-            system('cls')
             self.detailsFeature(self.student)
-            system('pause')
         elif choice == '2':
-            system('cls')
             self.statisticsFeature(self.student_level, self.student_id)
-            system('pause')
         elif choice == '3':
-            system('cls')
             self.majorTranscriptFeature(self.student_level, self.student_id, self.student)
-            system('pause')
         elif choice == '4':
-            system('cls')
             self.minorTranscriptFeature(self.student_level, self.student_id, self.student)
-            system('pause')
         elif choice == '5':
-            system('cls')
             self.fullTranscriptFeature(self.student_level, self.student_id, self.student)
-            system('pause')
         elif choice == '6':
-            system('cls')
             self.previousRequestsFeature(self.history, self.student_id)
-            system('pause')
         elif choice == '7':
-            system('cls')
             self.newStudentFeature()
-            system('pause')
         elif choice == '8':
-            system('cls')
             self.terminateFeature()
-            system('pause')
         else:
-            system('cls')
             print("Invalid Input!")
-            system('pause')
-        system('cls')
+        buffer()
+        clearScreen()
         self.menuFeature()
 
-# TODO: REPLACE SYSTEM PAUSE WITH INPUT FUNCTION
 def buffer():
-    ...
-# TODO: USE DIFFERENT OS COMMANDS DEPENDING ON OS
-def clear_screen():
-    ...
+    """ Acts as buffer to give enough time for user to read the texts """
+    input("\nPress enter to proceed ...")
+
+def clearScreen():
+    """ Clears the screen regardless of the OS """
+    # Posix is OS name for Linux or Mac, 'clear' cmd clears the screen for Linux and Mac
+    if os.name == "posix":
+        os.system("clear")
+    # for Windows (os name is 'nt'), 'cls' command clears the screen
+    else:
+        os.system("cls")
 
 if __name__ == "__main__":
     App()
