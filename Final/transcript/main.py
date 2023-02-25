@@ -46,6 +46,7 @@ class App:
             }
             self.data.append(temp)
 
+        # TODO: ONLY ASK FOR DEGREE/TYPE WHEN GRADUATE OR BOTH
         # TODO: ACCEPTING INVALID INPUT (STUDENT LEVEL AND STUDENT TYPE)
         self.student_level = input("Select Student Level:\nUndergraduate (U)\nGraduate (G)\nBoth (B)\nChoice: ").upper()
         self.student_type = input("\nSelect your level type:\nMaster (M)\nDoctorate (D)\nBoth (B0)\nChoice: ").upper()
@@ -530,6 +531,13 @@ class App:
             system('pause')
         system('cls')
         self.menuFeature()
+
+# TODO: REPLACE SYSTEM PAUSE WITH INPUT FUNCTION
+def buffer():
+    ...
+# TODO: USE DIFFERENT OS COMMANDS DEPENDING ON OS
+def clear_screen():
+    ...
 
 if __name__ == "__main__":
     App()
