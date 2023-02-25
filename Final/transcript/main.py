@@ -8,7 +8,8 @@ Siegfred Lorelle Mina - 2021-05794-MN-0 - 25%
 
 
 # TODO: ADD COMMENTS
-# TODO: CREATE A FUNCTION FOR GET_STUDENT_ID
+# TODO: USE DICT READER WHEN READING INDIVIDUAL STUDENT'S CSV
+# TODO: USE SWITCH CASE IN MENU MANAGER
 
 import csv
 import sys
@@ -45,22 +46,47 @@ class App:
 
         # Prompt user to select student level and type/degree
         self.getStudentLevel()
-        
-        # Prompt user to enter student ID and check if it exists in the data list
-        fix = True
-        while fix:
-            self.student_id = input("\nEnter your Student ID: ")
-            for i in self.data:
-                if i['stdID'] == self.student_id:
-                    self.student = i
-                    fix = False
+        # Prompt user to enter student ID
+        self.getStudentID()
 
         # Pause the program and clear the screen
         buffer()
         clearScreen()
-
         # Redirect to menu screen
         self.menuFeature()
+
+
+    def getStudentLevel(self):
+        """ Prompt user to select student level and then ask for type/degree if they have one """
+        # Asks for their student level
+        print("Select Student Level:\nUndergraduate (U)\nGraduate (G)\nBoth (B)")
+        self.student_level = input("\nChoice: ").upper()
+        # Check if the given student level is valid
+        if self.student_level == "G" or self.student_level == "B":
+            self.getDegreeLevel()
+        elif self.student_level != "U":
+            print("\nPlease use: U/G/B\n")
+            self.getStudentLevel()
+
+    def getDegreeLevel(self):
+        """ Prompt user to enter degree level """
+        # Ask for their degree/type
+        print("\nSelect your level type:\nMaster (M)\nDoctorate (D)\nBoth (B0)")
+        self.student_type = input("\nChoice: ").upper()
+        # Check if the given degree/type is valid
+        if self.student_type != "M" and self.student_type != "D" and self.student_type != "B0":
+            print("\nPlease use: M/D/B0\n")
+            self.getDegreeLevel()
+
+    def getStudentID(self):
+        """ Prompt user to enter student ID and check if it exists in the data list """
+
+        self.student_id = input("\nEnter your Student ID: ")
+        for i in self.data:
+            if i['stdID'] == self.student_id:
+                self.student = i
+                return
+        self.getStudentID()
 
 
     def menuFeature(self):
@@ -68,25 +94,6 @@ class App:
         print('Student Transcript Generation System\n====================================================\n1. Student Details\n2. Statistics\n3. Transcript based on major courses\n4. Transcript based on minor courses\n5. Full transcript\n6. Previous transcript requests\n7. Select another student\n8. Terminate system\n====================================================')
         # Asks the user what to do, then redirects it to that feature
         self.menuManager()
-
-
-    def getStudentLevel(self):
-        self.student_level = input("Select Student Level:\nUndergraduate (U)\nGraduate (G)\nBoth (B)\nChoice: ").upper()
-        
-        if self.student_level == "G" or self.student_level == "B":
-            self.getDegreeLevel()
-        elif self.student_level != "U":
-            ValueError
-            print("\nPlease use: U/G/B\n")
-            self.getStudentLevel()
-
-
-    def getDegreeLevel(self):
-        self.student_type = input("\nSelect your level type:\nMaster (M)\nDoctorate (D)\nBoth (B0)\nChoice: ").upper()
-        if self.student_type != "M" and self.student_type != "D" and self.student_type != "B0":
-            ValueError
-            print("\nPlease use: M/D/B0\n")
-            self.getDegreeLevel()
 
 
     # Display Details and save it in a text file
@@ -460,6 +467,7 @@ class App:
 
         self.history.append(new_h)
 
+
     def previousRequestsFeature(self, history, student_id):
         file = open(f"std{student_id}.txt", 'w')
         print("{:<10} {:<15} {:<7}".format('Request','Date','Time'))
@@ -469,20 +477,17 @@ class App:
             file.write("{:<11} {:<15} {:<12}\n".format(i['req'], i['date'], i['time']))
         file.close()
 
+
     def newStudentFeature(self):
         # Prompt user to select the new student's level and type/degree
         self.getStudentLevel()
+        # Prompt user to enter the new student ID
+        self.getStudentID()
 
-        fix = True
-        while fix:
-            self.student_id = input("\nEnter your Student ID: ")
-            for i in self.data:
-                if i['stdID'] == self.student_id:
-                    self.student = i
-                    fix = False
 
     def terminateFeature(self):
         sys.exit("Goodbye!\n")
+
 
     def menuManager(self):
         choice = input("Enter your Feature: ")
