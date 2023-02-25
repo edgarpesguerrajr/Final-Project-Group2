@@ -2,7 +2,7 @@
 # Edgar Esguerra Jr. - 2021-05780-MN-0 - 25%
 # Kenji Ilao - 2021-05784-MN-0 - 25%
 # Shin Lim - 2021-05789-MN-0 - 25%
-# Siegfred Mina - 2021-05794-MN-0 - 25%
+# Siegfred Lorelle Mina - 2021-05794-MN-0 - 25%
 
 import csv
 import sys
