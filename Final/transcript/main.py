@@ -80,8 +80,9 @@ class App:
 
     def getStudentID(self):
         """ Prompt user to enter student ID and check if it exists in the data list """
-
+        # Prompt for the new student id
         self.student_id = input("\nEnter your Student ID: ")
+        # Check if the given student id is registered
         for i in self.data:
             if i['stdID'] == self.student_id:
                 self.student = i
@@ -490,27 +491,31 @@ class App:
 
 
     def menuManager(self):
+        """ Asks user which feature to use, then redirects to that feature """
+        # Asks for a feature
         choice = input("Enter your Feature: ")
         clearScreen()
-
-        if choice == '1':
-            self.detailsFeature(self.student)
-        elif choice == '2':
-            self.statisticsFeature(self.student_level, self.student_id)
-        elif choice == '3':
-            self.majorTranscriptFeature(self.student_level, self.student_id, self.student)
-        elif choice == '4':
-            self.minorTranscriptFeature(self.student_level, self.student_id, self.student)
-        elif choice == '5':
-            self.fullTranscriptFeature(self.student_level, self.student_id, self.student)
-        elif choice == '6':
-            self.previousRequestsFeature(self.history, self.student_id)
-        elif choice == '7':
-            self.newStudentFeature()
-        elif choice == '8':
-            self.terminateFeature()
-        else:
-            print("Invalid Input!")
+        # Redirect to specific feature based on user choice
+        match choice:
+            case "1":
+                self.detailsFeature(self.student)
+            case "2":
+                self.statisticsFeature(self.student_level, self.student_id)
+            case "3":
+                self.majorTranscriptFeature(self.student_level, self.student_id, self.student)
+            case "4":
+                self.minorTranscriptFeature(self.student_level, self.student_id, self.student)
+            case "5":
+                self.fullTranscriptFeature(self.student_level, self.student_id, self.student)
+            case "6":
+                self.previousRequestsFeature(self.history, self.student_id)
+            case "7":
+                self.newStudentFeature()
+            case "8":
+                self.terminateFeature()
+            case _:
+                print("Invalid Input!")
+        # After every feature, add a buffer to let user read, then clear screen and go back to menu screen
         buffer()
         clearScreen()
         self.menuFeature()
