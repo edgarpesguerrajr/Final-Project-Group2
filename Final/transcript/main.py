@@ -6,7 +6,6 @@ Shin Lim - 2021-05789-MN-0 - 25%
 Siegfred Lorelle Mina - 2021-05794-MN-0 - 25% 
 """
 
-
 # TODO: ADD COMMENTS
 
 import csv
@@ -44,20 +43,11 @@ class App:
                 self.student_list.append(row)
 
         # Prompt user to select their student level and type/degree
-        self.getStudentLevel()
+        self.setStudentLevel()
         # Prompt user to enter their student ID
-        self.getStudentID()
-
-        # Read the record/grade of the student, save each row as dictionary, then append it to student grades
-        with open(f'{self.student_id}.csv') as file:
-            reader = csv.DictReader(file)
-            for row in reader:
-                self.student_grades.append(row)
-
-        # Convert term and grade into int
-        for data in self.student_grades:
-            data["Term"] = int(data["Term"])
-            data["Grade"] = int(data["Grade"])
+        self.setStudentID()
+        # Read the csv file of the student, then save it to student grades
+        self.setStudentGrade()
 
         # Pause the program and clear the screen
         buffer()
@@ -66,29 +56,29 @@ class App:
         self.menuFeature()
 
 
-    def getStudentLevel(self):
+    def setStudentLevel(self):
         """ Prompt user to select student level and then ask for type/degree if they have one """
         # Asks for their student level
-        print("Select Student Level:\nUndergraduate (U)\nGraduate (G)\nBoth (B)")
+        print("\nSelect Student Level:\nUndergraduate (U)\nGraduate (G)\nBoth (B)")
         self.student_level = input("\nChoice: ").upper()
         # Check if the given student level is valid
         if self.student_level == "G" or self.student_level == "B":
-            self.getDegreeLevel()
+            self.setDegreeLevel()
         elif self.student_level != "U":
-            print("\nPlease use: U/G/B\n")
-            self.getStudentLevel()
+            print("\nPlease use: U/G/B")
+            self.setStudentLevel()
 
-    def getDegreeLevel(self):
+    def setDegreeLevel(self):
         """ Prompt user to enter degree level """
         # Ask for their degree/type
         print("\nSelect your level type:\nMaster (M)\nDoctorate (D)\nBoth (B0)")
         self.student_type = input("\nChoice: ").upper()
         # Check if the given degree/type is valid
         if self.student_type != "M" and self.student_type != "D" and self.student_type != "B0":
-            print("\nPlease use: M/D/B0\n")
-            self.getDegreeLevel()
+            print("\nPlease use: M/D/B0")
+            self.setDegreeLevel()
 
-    def getStudentID(self):
+    def setStudentID(self):
         """ Prompt user to enter student ID and check if it exists in the data list """
         # Prompt for the new student id
         self.student_id = input("\nEnter your Student ID: ")
@@ -97,7 +87,21 @@ class App:
             if student['stdID'] == self.student_id:
                 self.student = student
                 return
-        self.getStudentID()
+        self.setStudentID()
+
+    def setStudentGrade(self):
+        """ Read the csv file of the student, then save it to student grades """
+        # Clear the student grade list to give space for the new student's grade
+        self.student_grades.clear()
+        # Read the record/grade of the student, save each row as dictionary, then append it to student grades
+        with open(f'{self.student_id}.csv') as file:
+            reader = csv.DictReader(file)
+            for row in reader:
+                self.student_grades.append(row)
+        # Convert term and grade into int
+        for data in self.student_grades:
+            data["Term"] = int(data["Term"])
+            data["Grade"] = int(data["Grade"])
 
 
     def menuFeature(self):
@@ -107,8 +111,8 @@ class App:
         self.menuManager()
 
 
-    # Display Details and save it in a text file
     def detailsFeature(self, student):
+        """ Display Details and save it in a text file """
         print(f"Name: {student['Name']}\nstdID: {student['stdID']}\nLevel(s): {student['Level']}\nNumber of Terms: {student['Terms']}\nCollege(s): {student['College']}\nDepartment(s): {student['Department']}")
         file = open(f'stdID{student["stdID"]}.txt', 'w')
         with file as f:
@@ -128,15 +132,15 @@ class App:
         major_count = 0
         minor_count = 0
 
-        for grade in self.student_grades:
-            sum += grade['Grade']
+        for i in self.student_grades:
+            sum += i['Grade']
             count += 1
 
-            if grade['courseType'] == "Major":
-                major_sum += grade['Grade']
+            if i['courseType'] == "Major":
+                major_sum += i['Grade']
                 major_count += 1
-            elif grade['courseType'] == 'Minor':
-                minor_sum += grade['Grade']
+            elif i['courseType'] == 'Minor':
+                minor_sum += i['Grade']
                 minor_count += 1
 
         average = int(sum / count)
@@ -153,9 +157,9 @@ class App:
             text_term = ''
             print(f'===================================\nUndergraduate Level\n===================================\nOverall average (major and minor) for all terms: {average}\nAverage (major and minor) of each term: {major_average} & {minor_average}')
 
-            for grade in self.student_grades:
-                print(f"\tTerm {grade['Term']}: {grade['Grade']}\n")
-                text_term += f"\tTerm {grade['Term']}: {grade['Grade']}\n"
+            for i in self.student_grades:
+                print(f"\tTerm {i['Term']}: {i['Grade']}\n")
+                text_term += f"\tTerm {i['Term']}: {i['Grade']}\n"
             
             print(f"Maximum grade(s) and in which term(s): {max_grade}\nMinimum grade(s) and in which term(s): {min_grade}\nDo you have any repeated course(s)?: Y")
 
@@ -167,9 +171,9 @@ class App:
             text_term = ''
             print(f'===================================\nGraduate Level\n===================================\nOverall average (major and minor) for all terms: {average}\nAverage (major and minor) of each term: {major_average} & {minor_average}')
 
-            for grade in self.student_grades:
-                print(f"\tTerm {grade['Term']}: {grade['Grade']}\n")
-                text_term += f"\tTerm {grade['Term']}: {grade['Grade']}\n"
+            for i in self.student_grades:
+                print(f"\tTerm {i['Term']}: {i['Grade']}\n")
+                text_term += f"\tTerm {i['Term']}: {i['Grade']}\n"
             
             print(f"Maximum grade(s) and in which term(s): {max_grade}\nMinimum grade(s) and in which term(s): {min_grade}\nDo you have any repeated course(s)?: Y")
 
@@ -181,18 +185,18 @@ class App:
             u_term = ''
             print(f'===================================\nUndergraduate Level\n===================================\nOverall average (major and minor) for all terms: {average}\nAverage (major and minor) of each term: {major_average} & {minor_average}')
 
-            for grade in self.student_grades:
-                print(f"\tTerm {grade['Term']}: {grade['Grade']}\n")
-                u_term += f"\tTerm {grade['Term']}: {grade['Grade']}\n"
+            for i in self.student_grades:
+                print(f"\tTerm {i['Term']}: {i['Grade']}\n")
+                u_term += f"\tTerm {i['Term']}: {i['Grade']}\n"
             
             print(f"Maximum grade(s) and in which term(s): {max_grade}\nMinimum grade(s) and in which term(s): {min_grade}\nDo you have any repeated course(s)?: Y\n")
 
             g_term = ''
             print(f'===================================\nGraduate Level\n===================================\nOverall average (major and minor) for all terms: {average}\nAverage (major and minor) of each term: {major_average} & {minor_average}')
 
-            for grade in self.student_grades:
-                print(f"\tTerm {grade['Term']}: {grade['Grade']}\n")
-                g_term += f"\tTerm {grade['Term']}: {grade['Grade']}\n"
+            for i in self.student_grades:
+                print(f"\tTerm {i['Term']}: {i['Grade']}\n")
+                g_term += f"\tTerm {i['Term']}: {i['Grade']}\n"
             
             print(f"Maximum grade(s) and in which term(s): {max_grade}\nMinimum grade(s) and in which term(s): {min_grade}\nDo you have any repeated course(s)?: Y")
 
@@ -407,15 +411,11 @@ class App:
     def newStudentFeature(self):
         """ Asks for the new student's info """
         # Prompt user to select the new student's level and type/degree
-        self.getStudentLevel()
+        self.setStudentLevel()
         # Prompt user to enter the new student ID
-        self.getStudentID()
-
-        # Read the record/grade of the new student, save each row as dictionary, then append it to student grades
-        with open(f'{self.student_id}.csv') as file:
-            reader = csv.DictReader(file)
-            for row in reader:
-                self.student_grades.append(row)
+        self.setStudentID()
+        # Read the csv file of the student, then save it to student grades
+        self.setStudentGrade()
 
 
     def terminateFeature(self):
