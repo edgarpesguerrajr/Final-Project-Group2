@@ -1,11 +1,14 @@
-# This work is done by Group 2
-# Edgar Esguerra Jr. - 2021-05780-MN-0 - 25%
-# Kenji Ilao - 2021-05784-MN-0 - 25%
-# Shin Lim - 2021-05789-MN-0 - 25%
-# Siegfred Lorelle Mina - 2021-05794-MN-0 - 25%
+"""
+This work is done by Group 2
+Edgar Esguerra Jr. - 2021-05780-MN-0 - 25%
+Kenji Ilao - 2021-05784-MN-0 - 25%
+Shin Lim - 2021-05789-MN-0 - 25%
+Siegfred Lorelle Mina - 2021-05794-MN-0 - 25% 
+"""
 
 
 # TODO: ADD COMMENTS
+# TODO: CREATE A FUNCTION FOR GET_STUDENT_ID
 
 import csv
 import sys
@@ -14,13 +17,13 @@ from datetime import date, datetime
 
 
 def main():
-    """ Initialize the App upon running the program """
+    """ Initialize the App upon starting the program """
     App()
 
 
 class App:
-    # Initialize variables
     def __init__(self):
+        """ Initialize all variables, then assign them in start feature """
         self.student_level = ' '
         self.student_type = ' '
         self.student_id = ' '
@@ -28,8 +31,9 @@ class App:
         self.history = []
         self.student = {}
 
-        # Call the startFeature method to assign student level, type, and id
+        # Call the startFeature method to assign data and student level, type, and id
         self.startFeature()
+
 
     def startFeature(self):
         """ Load student data from student details CSV file then prompt user for their student level, type, and id """
@@ -45,7 +49,7 @@ class App:
         # Prompt user to enter student ID and check if it exists in the data list
         fix = True
         while fix:
-            self.student_id = input("Enter your Student ID: ")
+            self.student_id = input("\nEnter your Student ID: ")
             for i in self.data:
                 if i['stdID'] == self.student_id:
                     self.student = i
@@ -57,13 +61,14 @@ class App:
 
         # Redirect to menu screen
         self.menuFeature()
-        
-    # General Menu
-    def menuFeature(self):
-        print('Student Transcript Generation System\n====================================================\n1. Student Details\n2. Statistics\n3. Transcript based on major courses\n4. Transcript based on minor courses\n5. Full transcript\n6. Previous transcript requests\n7. Select another student\n8. Terminate system\n====================================================')
 
-        # Asks the user what to do, then redirects it to that method
-        self.menu_manager()
+
+    def menuFeature(self):
+        """ Show all available options in menu. Asks for a choice, then redirect to that feature """
+        print('Student Transcript Generation System\n====================================================\n1. Student Details\n2. Statistics\n3. Transcript based on major courses\n4. Transcript based on minor courses\n5. Full transcript\n6. Previous transcript requests\n7. Select another student\n8. Terminate system\n====================================================')
+        # Asks the user what to do, then redirects it to that feature
+        self.menuManager()
+
 
     def getStudentLevel(self):
         self.student_level = input("Select Student Level:\nUndergraduate (U)\nGraduate (G)\nBoth (B)\nChoice: ").upper()
@@ -72,14 +77,15 @@ class App:
             self.getDegreeLevel()
         elif self.student_level != "U":
             ValueError
-            print("\nPlease U/G/B\n")
+            print("\nPlease use: U/G/B\n")
             self.getStudentLevel()
-            
+
+
     def getDegreeLevel(self):
         self.student_type = input("\nSelect your level type:\nMaster (M)\nDoctorate (D)\nBoth (B0)\nChoice: ").upper()
         if self.student_type != "M" and self.student_type != "D" and self.student_type != "B0":
             ValueError
-            print("Please M/D/B0")
+            print("\nPlease use: M/D/B0\n")
             self.getDegreeLevel()
 
 
@@ -89,6 +95,7 @@ class App:
         file = open(f'stdID{student["stdID"]}.txt', 'w')
         with file as f:
             f.write(f"Name: {student['Name']}\nstdID: {student['stdID']}\nLevel(s): {student['Level']}\nNumber of Terms: {student['Terms']}\nCollege(s): {student['College']}\nDepartment(s): {student['Department']}")
+
 
     def statisticsFeature(self, student_level, student_id):
         data = []
@@ -289,7 +296,8 @@ class App:
         }
 
         self.history.append(new_h)
-        
+
+
     def minorTranscriptFeature(self, student_level, student_id, student):
         data = []
 
@@ -462,13 +470,12 @@ class App:
         file.close()
 
     def newStudentFeature(self):
-        # TODO: USE GET STUDENT LEVEL AND DEGREE LEVEL
-        self.student_level = input("Select Student Level:\nUndergraduate (U)\nGraduate (G)\nBoth (B)\nChoice: ").upper()
-        self.student_type = input("\nSelect your level type:\nMaster (M)\nDoctorate (D)\nBoth (B0)\nChoice: ").upper()
+        # Prompt user to select the new student's level and type/degree
+        self.getStudentLevel()
 
         fix = True
         while fix:
-            self.student_id = input("Enter your Student ID: ")
+            self.student_id = input("\nEnter your Student ID: ")
             for i in self.data:
                 if i['stdID'] == self.student_id:
                     self.student = i
@@ -477,7 +484,7 @@ class App:
     def terminateFeature(self):
         sys.exit("Goodbye!\n")
 
-    def menu_manager(self):
+    def menuManager(self):
         choice = input("Enter your Feature: ")
         clearScreen()
 
