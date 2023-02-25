@@ -12,7 +12,8 @@ def startFeature():
     system("cls")
 
     tempheader = []
-
+    
+    # TODO: CHANGE GLOBAL
     # Adjusting the scope of the variables by using the global keyword in order to change it's values inside the function
     global data
     global student_level
@@ -40,8 +41,8 @@ def startFeature():
         data.append(temp)
 
 
-    student_level = input("Select Student Level:\nUndergraduate (U)\nGraduate (G)\nBoth (B)\nChoice: ")
-    student_type = input("\nSelect your level type:\nMaster (M)\nDoctorate (D)\nBoth (B0)\nChoice: ")
+    student_level = input("Select Student Level:\nUndergraduate (U)\nGraduate (G)\nBoth (B)\nChoice: ").upper()
+    student_type = input("\nSelect your level type:\nMaster (M)\nDoctorate (D)\nBoth (B0)\nChoice: ").upper()
 
     fix = True
     while fix:
@@ -97,6 +98,7 @@ def statisticsFeature(student_level, student_id):
     count = 0
     major_count = 0
     minor_count = 0
+
     for i in data:
         sum += i['grade']
         count += 1
@@ -116,7 +118,6 @@ def statisticsFeature(student_level, student_id):
 
     max_grade = max(nums)
     min_grade = min(nums)
-
 
 
     if student_level == 'U':
@@ -175,6 +176,7 @@ def statisticsFeature(student_level, student_id):
         file.write(f'===================================\nGraduate Level\n===================================\nOverall average (major and minor) for all terms: {average}\nAverage (major and minor) of each term: {major_average} & {minor_average}\n')
         file.write(g_term)
         file.write(f"Maximum grade(s) and in which term(s): {max_grade}\nMinimum grade(s) and in which term(s): {min_grade}\nDo you have any repeated course(s)?: Y")
+
 
 def majorTranscriptFeature(student_level, student_id):
     data = []

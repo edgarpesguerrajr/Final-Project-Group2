@@ -1,0 +1,35 @@
+Name: Ali Mohammad Hadi
+stdID: 201007000
+College: College2
+Department: C2Department1
+Major: 7
+Minor: 3
+Level: G
+Number of Terms: 4
+===================================
+Term 1
+===================================
+Course ID Course Name  Credit Hours Grade     
+CA6       CourseA6     4            76        
+
+
+Minor Average = 79
+Overall Average = 76
+===================================
+Term 2
+===================================
+Course ID Course Name  Credit Hours Grade     
+CA16      CourseA16    4            60        
+
+
+Minor Average = 79
+Overall Average = 60
+===================================
+Term 3
+===================================
+Course ID Course Name  Credit Hours Grade     
+CA26      CourseA26    4            81        
+
+
+Minor Average = 79
+Overall Average = 81

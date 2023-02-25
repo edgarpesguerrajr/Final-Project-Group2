@@ -1,0 +1,18 @@
+===================================
+Undergraduate Level
+===================================
+Overall average (major and minor) for all terms: 77
+Average (major and minor) of each term: 79 & 72
+	Term 1: 75
+	Term 1: 76
+	Term 1: 77
+	Term 1: 78
+	Term 2: 60
+	Term 2: 81
+	Term 3: 82
+	Term 3: 81
+	Term 3: 82
+	Term 4: 83
+Maximum grade(s) and in which term(s): 83
+Minimum grade(s) and in which term(s): 60
+Do you have any repeated course(s)?: Y
