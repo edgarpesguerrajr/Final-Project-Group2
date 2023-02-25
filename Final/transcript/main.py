@@ -12,6 +12,12 @@ import sys
 import os
 from datetime import date, datetime
 
+
+def main():
+    """ Initialize the App upon running the program """
+    App()
+
+
 class App:
     # Initialize variables
     def __init__(self):
@@ -22,33 +28,16 @@ class App:
         self.history = []
         self.student = {}
 
-        # Call the startFeature() function
+        # Call the startFeature method to assign student level, type, and id
         self.startFeature()
 
-# Load student data from CSV file and prompt user to select student level and type
     def startFeature(self):
-        # Read data from CSV file
-        tempheader = []
-
-        file = open('studentDetails.csv')
-        reader = csv.reader(file)
-        tempheader = next(reader)
-
-        # Parse CSV data and store in self.data list
-        for row in reader:
-            temp = {
-                "serial": row[0],
-                "stdID": row[1],
-                "name": row[2],
-                "college": row[3],
-                "department": row[4],
-                "level": row[5],
-                "degree": row[6],
-                "major": row[7],
-                "minor": row[8],
-                "terms": row[9]
-            }
-            self.data.append(temp)
+        """ Load student data from student details CSV file then prompt user for their student level, type, and id """
+        # Read student details CSV file, save each row as a dictionary then append that dictionary to data
+        with open('studentDetails.csv') as file:
+            reader = csv.DictReader(file)
+            for row in reader:
+                self.data.append(row)
 
         # Prompt user to select student level and type/degree
         self.getStudentLevel()
@@ -96,14 +85,15 @@ class App:
 
     # Display Details and save it in a text file
     def detailsFeature(self, student):
-        print(f"Name: {student['name']}\nstdID: {student['stdID']}\nLevel(s): {student['level']}\nNumber of Terms: {student['terms']}\nCollege(s): {student['college']}\nDepartment(s): {student['department']}")
+        print(f"Name: {student['Name']}\nstdID: {student['stdID']}\nLevel(s): {student['Level']}\nNumber of Terms: {student['Terms']}\nCollege(s): {student['College']}\nDepartment(s): {student['Department']}")
         file = open(f'stdID{student["stdID"]}.txt', 'w')
         with file as f:
-            f.write(f"Name: {student['name']}\nstdID: {student['stdID']}\nLevel(s): {student['level']}\nNumber of Terms: {student['terms']}\nCollege(s): {student['college']}\nDepartment(s): {student['department']}")
+            f.write(f"Name: {student['Name']}\nstdID: {student['stdID']}\nLevel(s): {student['Level']}\nNumber of Terms: {student['Terms']}\nCollege(s): {student['College']}\nDepartment(s): {student['Department']}")
 
     def statisticsFeature(self, student_level, student_id):
         data = []
 
+        # TODO: USE DICT READER
         file = open(f"{self.student_id}.csv")
         reader = csv.reader(file)
         tempheader = next(reader)
@@ -260,9 +250,9 @@ class App:
 
         file = open(f"std{student_id}MajorTranscript.txt", 'w')
 
-        print(f"Name: {student['name']}\nstdID: {student['stdID']}\nCollege: {student['college']}\nDepartment: {student['department']}\nMajor: {major}\nMinor: {minor}\nLevel: {student['level']}\nNumber of Terms: {maxterm}")
+        print(f"Name: {student['Name']}\nstdID: {student['stdID']}\nCollege: {student['College']}\nDepartment: {student['Department']}\nMajor: {major}\nMinor: {minor}\nLevel: {student['Level']}\nNumber of Terms: {maxterm}")
 
-        file.write(f"Name: {student['name']}\nstdID: {student['stdID']}\nCollege: {student['college']}\nDepartment: {student['department']}\nMajor: {major}\nMinor: {minor}\nLevel: {student['level']}\nNumber of Terms: {maxterm}\n")
+        file.write(f"Name: {student['Name']}\nstdID: {student['stdID']}\nCollege: {student['College']}\nDepartment: {student['Department']}\nMajor: {major}\nMinor: {minor}\nLevel: {student['Level']}\nNumber of Terms: {maxterm}\n")
 
         for i in range(1, maxterm):
 
@@ -345,9 +335,9 @@ class App:
 
         file = open(f"std{student_id}MinorTranscript.txt", 'w')
 
-        print(f"Name: {student['name']}\nstdID: {student['stdID']}\nCollege: {student['college']}\nDepartment: {student['department']}\nMajor: {major}\nMinor: {minor}\nLevel: {student['level']}\nNumber of Terms: {maxterm}")
+        print(f"Name: {student['Name']}\nstdID: {student['stdID']}\nCollege: {student['College']}\nDepartment: {student['Department']}\nMajor: {major}\nMinor: {minor}\nLevel: {student['Level']}\nNumber of Terms: {maxterm}")
 
-        file.write(f"Name: {student['name']}\nstdID: {student['stdID']}\nCollege: {student['college']}\nDepartment: {student['department']}\nMajor: {major}\nMinor: {minor}\nLevel: {student['level']}\nNumber of Terms: {maxterm}\n")
+        file.write(f"Name: {student['Name']}\nstdID: {student['stdID']}\nCollege: {student['College']}\nDepartment: {student['Department']}\nMajor: {major}\nMinor: {minor}\nLevel: {student['Level']}\nNumber of Terms: {maxterm}\n")
 
         for i in range(1, maxterm):
 
@@ -426,9 +416,9 @@ class App:
 
         file = open(f"std{student_id}FullTranscript.txt", 'w')
 
-        print(f"Name: {student['name']}\nstdID: {student['stdID']}\nCollege: {student['college']}\nDepartment: {student['department']}\nMajor: {major}\nMinor: {minor}\nLevel: {student['level']}\nNumber of Terms: {maxterm}")
+        print(f"Name: {student['Name']}\nstdID: {student['stdID']}\nCollege: {student['College']}\nDepartment: {student['Department']}\nMajor: {major}\nMinor: {minor}\nLevel: {student['Level']}\nNumber of Terms: {maxterm}")
 
-        file.write(f"Name: {student['name']}\nstdID: {student['stdID']}\nCollege: {student['college']}\nDepartment: {student['department']}\nMajor: {major}\nMinor: {minor}\nLevel: {student['level']}\nNumber of Terms: {maxterm}\n")
+        file.write(f"Name: {student['Name']}\nstdID: {student['stdID']}\nCollege: {student['College']}\nDepartment: {student['Department']}\nMajor: {major}\nMinor: {minor}\nLevel: {student['Level']}\nNumber of Terms: {maxterm}\n")
 
         for i in range(1, maxterm):
 
@@ -472,28 +462,6 @@ class App:
         file.close()
 
     def newStudentFeature(self):
-
-        tempheader = []
-
-        file = open('studentDetails.csv')
-        reader = csv.reader(file)
-        tempheader = next(reader)
-
-        for row in reader:
-            temp = {
-                "serial": row[0],
-                "stdID": row[1],
-                "name": row[2],
-                "college": row[3],
-                "department": row[4],
-                "level": row[5],
-                "degree": row[6],
-                "major": row[7],
-                "minor": row[8],
-                "terms": row[9]
-            }
-            self.data.append(temp)
-
         # TODO: USE GET STUDENT LEVEL AND DEGREE LEVEL
         self.student_level = input("Select Student Level:\nUndergraduate (U)\nGraduate (G)\nBoth (B)\nChoice: ").upper()
         self.student_type = input("\nSelect your level type:\nMaster (M)\nDoctorate (D)\nBoth (B0)\nChoice: ").upper()
@@ -549,5 +517,4 @@ def clearScreen():
         os.system("cls")
 
 if __name__ == "__main__":
-    App()
-
+    main()
