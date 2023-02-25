@@ -8,8 +8,6 @@ Siegfred Lorelle Mina - 2021-05794-MN-0 - 25%
 
 
 # TODO: ADD COMMENTS
-# TODO: USE DICT READER WHEN READING INDIVIDUAL STUDENT'S CSV
-# TODO: USE SWITCH CASE IN MENU MANAGER
 
 import csv
 import sys
@@ -25,12 +23,13 @@ def main():
 class App:
     def __init__(self):
         """ Initialize all variables, then assign them in start feature """
-        self.student_level = ' '
-        self.student_type = ' '
-        self.student_id = ' '
-        self.data = []
-        self.history = []
+        self.student_level = ""
+        self.student_type = ""
+        self.student_id = ""
         self.student = {}
+        self.student_list = []
+        self.student_grades = []
+        self.history = []
 
         # Call the startFeature method to assign data and student level, type, and id
         self.startFeature()
@@ -42,12 +41,23 @@ class App:
         with open('studentDetails.csv') as file:
             reader = csv.DictReader(file)
             for row in reader:
-                self.data.append(row)
+                self.student_list.append(row)
 
-        # Prompt user to select student level and type/degree
+        # Prompt user to select their student level and type/degree
         self.getStudentLevel()
-        # Prompt user to enter student ID
+        # Prompt user to enter their student ID
         self.getStudentID()
+
+        # Read the record/grade of the student, save each row as dictionary, then append it to student grades
+        with open(f'{self.student_id}.csv') as file:
+            reader = csv.DictReader(file)
+            for row in reader:
+                self.student_grades.append(row)
+
+        # Convert term and grade into int
+        for data in self.student_grades:
+            data["Term"] = int(data["Term"])
+            data["Grade"] = int(data["Grade"])
 
         # Pause the program and clear the screen
         buffer()
@@ -83,9 +93,9 @@ class App:
         # Prompt for the new student id
         self.student_id = input("\nEnter your Student ID: ")
         # Check if the given student id is registered
-        for i in self.data:
-            if i['stdID'] == self.student_id:
-                self.student = i
+        for student in self.student_list:
+            if student['stdID'] == self.student_id:
+                self.student = student
                 return
         self.getStudentID()
 
@@ -106,27 +116,6 @@ class App:
 
 
     def statisticsFeature(self, student_level, student_id):
-        data = []
-
-        # TODO: USE DICT READER
-        file = open(f"{self.student_id}.csv")
-        reader = csv.reader(file)
-        tempheader = next(reader)
-
-        for row in reader:
-            temp = {
-                "level": row[0],
-                "degree": row[1],
-                "term": int(row[2]),
-                "courseName": row[3],
-                "courseID": row[4],
-                "courseType": row[5],
-                "creditHours": row[6],
-                "grade": int(row[7]),
-            }
-
-            data.append(temp)
-
         sum = 0
         minor_sum = 0
         major_sum = 0
@@ -139,22 +128,22 @@ class App:
         major_count = 0
         minor_count = 0
 
-        for i in data:
-            sum += i['grade']
+        for grade in self.student_grades:
+            sum += grade['Grade']
             count += 1
 
-            if i['courseType'] == "Major":
-                major_sum += i['grade']
+            if grade['courseType'] == "Major":
+                major_sum += grade['Grade']
                 major_count += 1
-            elif i['courseType'] == 'Minor':
-                minor_sum += i['grade']
+            elif grade['courseType'] == 'Minor':
+                minor_sum += grade['Grade']
                 minor_count += 1
-        
+
         average = int(sum / count)
         major_average = int(major_sum / major_count)
         minor_average = int(minor_sum / minor_count)
 
-        nums = [i['grade'] for i in data]
+        nums = [grade['Grade'] for grade in self.student_grades]
 
         max_grade = max(nums)
         min_grade = min(nums)
@@ -164,9 +153,9 @@ class App:
             text_term = ''
             print(f'===================================\nUndergraduate Level\n===================================\nOverall average (major and minor) for all terms: {average}\nAverage (major and minor) of each term: {major_average} & {minor_average}')
 
-            for i in data:
-                print(f"\tTerm {i['term']}: {i['grade']}\n")
-                text_term += f"\tTerm {i['term']}: {i['grade']}\n"
+            for grade in self.student_grades:
+                print(f"\tTerm {grade['Term']}: {grade['Grade']}\n")
+                text_term += f"\tTerm {grade['Term']}: {grade['Grade']}\n"
             
             print(f"Maximum grade(s) and in which term(s): {max_grade}\nMinimum grade(s) and in which term(s): {min_grade}\nDo you have any repeated course(s)?: Y")
 
@@ -178,9 +167,9 @@ class App:
             text_term = ''
             print(f'===================================\nGraduate Level\n===================================\nOverall average (major and minor) for all terms: {average}\nAverage (major and minor) of each term: {major_average} & {minor_average}')
 
-            for i in data:
-                print(f"\tTerm {i['term']}: {i['grade']}\n")
-                text_term += f"\tTerm {i['term']}: {i['grade']}\n"
+            for grade in self.student_grades:
+                print(f"\tTerm {grade['Term']}: {grade['Grade']}\n")
+                text_term += f"\tTerm {grade['Term']}: {grade['Grade']}\n"
             
             print(f"Maximum grade(s) and in which term(s): {max_grade}\nMinimum grade(s) and in which term(s): {min_grade}\nDo you have any repeated course(s)?: Y")
 
@@ -192,18 +181,18 @@ class App:
             u_term = ''
             print(f'===================================\nUndergraduate Level\n===================================\nOverall average (major and minor) for all terms: {average}\nAverage (major and minor) of each term: {major_average} & {minor_average}')
 
-            for i in data:
-                print(f"\tTerm {i['term']}: {i['grade']}\n")
-                u_term += f"\tTerm {i['term']}: {i['grade']}\n"
+            for grade in self.student_grades:
+                print(f"\tTerm {grade['Term']}: {grade['Grade']}\n")
+                u_term += f"\tTerm {grade['Term']}: {grade['Grade']}\n"
             
             print(f"Maximum grade(s) and in which term(s): {max_grade}\nMinimum grade(s) and in which term(s): {min_grade}\nDo you have any repeated course(s)?: Y\n")
 
             g_term = ''
             print(f'===================================\nGraduate Level\n===================================\nOverall average (major and minor) for all terms: {average}\nAverage (major and minor) of each term: {major_average} & {minor_average}')
 
-            for i in data:
-                print(f"\tTerm {i['term']}: {i['grade']}\n")
-                g_term += f"\tTerm {i['term']}: {i['grade']}\n"
+            for grade in self.student_grades:
+                print(f"\tTerm {grade['Term']}: {grade['Grade']}\n")
+                g_term += f"\tTerm {grade['Term']}: {grade['Grade']}\n"
             
             print(f"Maximum grade(s) and in which term(s): {max_grade}\nMinimum grade(s) and in which term(s): {min_grade}\nDo you have any repeated course(s)?: Y")
 
@@ -219,48 +208,25 @@ class App:
 
 
     def majorTranscriptFeature(self, student_level, student_id, student):
-        data = []
-
-        file = open(f"{student_id}.csv")
-        reader = csv.reader(file)
-        tempheader = next(reader)
 
         major = 0
         minor = 0
-
-        for row in reader:
-            temp = {
-                "level": row[0],
-                "degree": row[1],
-                "term": int(row[2]),
-                "courseName": row[3],
-                "courseID": row[4],
-                "courseType": row[5],
-                "creditHours": row[6],
-                "grade": int(row[7]),
-            }
-
-            if temp['courseType'] == 'Major':
-                major += 1
-            elif temp['courseType'] == 'Minor':
-                minor += 1
-
-            data.append(temp)
-
 
         major_ave = 0
         major_sum = 0
         major_count = 0
 
-        for i in data:
+        for i in self.student_grades:
             if i['courseType'] == 'Major':
-                major_sum += i['grade']
+                major_sum += i['Grade']
                 major_count += 1
-        
-        major_ave = int(major_sum / major_count)
-            
+                major += 1
+            elif i['courseType'] == 'Minor':
+                minor += 1
 
-        all_terms = [i['term'] for i in data]
+        major_ave = int(major_sum / major_count)
+
+        all_terms = [i["Term"] for i in self.student_grades]
         maxterm = max(all_terms)
 
         file = open(f"std{student_id}MajorTranscript.txt", 'w')
@@ -281,12 +247,12 @@ class App:
             file.write("{:<8} {:<12} {:<7} {:<10}\n".format('Course ID','Course Name','Credit Hours','Grade'))
 
 
-            for j in data:
-                if j['term'] == i and j['courseType'] == 'Major':
-                    perterm_sum += j['grade']
+            for j in self.student_grades:
+                if j["Term"] == i and j['courseType'] == 'Major':
+                    perterm_sum += j['Grade']
                     perterm_count += 1
-                    print ("{:<9} {:<12} {:<12} {:<10}".format(j['courseID'], j['courseName'], j['creditHours'], j['grade']))
-                    file.write("{:<9} {:<12} {:<12} {:<10}\n".format(j['courseID'], j['courseName'], j['creditHours'], j['grade']))
+                    print ("{:<9} {:<12} {:<12} {:<10}".format(j['courseID'], j['courseName'], j['creditHours'], j['Grade']))
+                    file.write("{:<9} {:<12} {:<12} {:<10}\n".format(j['courseID'], j['courseName'], j['creditHours'], j['Grade']))
 
 
             print(f"\n\nMajor Average = {major_ave}\nOverall Average = {int(perterm_sum / perterm_count)}")
@@ -295,7 +261,7 @@ class App:
 
         today = date.today()
         now = datetime.now()
-        
+
 
         new_h = {
             "req": "Major",
@@ -307,46 +273,26 @@ class App:
 
 
     def minorTranscriptFeature(self, student_level, student_id, student):
-        data = []
-
-        file = open(f"{student_id}.csv")
-        reader = csv.reader(file)
-        tempheader = next(reader)
 
         major = 0
         minor = 0
 
-        for row in reader:
-            temp = {
-                "level": row[0],
-                "degree": row[1],
-                "term": int(row[2]),
-                "courseName": row[3],
-                "courseID": row[4],
-                "courseType": row[5],
-                "creditHours": row[6],
-                "grade": int(row[7]),
-            }
-
-            if temp['courseType'] == 'Major':
-                major += 1
-            elif temp['courseType'] == 'Minor':
-                minor += 1
-
-            data.append(temp)
-        
         minor_ave = 0
         minor_sum = 0
         minor_count = 0
 
-        for i in data:
+        for i in self.student_grades:
             if i['courseType'] == 'Major':
-                minor_sum += i['grade']
+                minor_sum += i['Grade']
                 minor_count += 1
+                major += 1
+            elif i['courseType'] == 'Minor':
+                minor += 1
+
         
         minor_ave = int(minor_sum / minor_count)
 
-        all_terms = [i['term'] for i in data]
+        all_terms = [i["Term"] for i in self.student_grades]
         maxterm = max(all_terms)
 
         file = open(f"std{student_id}MinorTranscript.txt", 'w')
@@ -365,12 +311,12 @@ class App:
 
             file.write(f"===================================\nTerm {i}\n===================================\n")
             file.write("{:<8} {:<12} {:<7} {:<10}\n".format('Course ID','Course Name','Credit Hours','Grade'))
-            for j in data:
-                if j['term'] == i and j['courseType'] == 'Minor':
-                    perterm_sum += j['grade']
+            for j in self.student_grades:
+                if j["Term"] == i and j['courseType'] == 'Minor':
+                    perterm_sum += j['Grade']
                     perterm_count += 1
-                    print ("{:<9} {:<12} {:<12} {:<10}".format(j['courseID'], j['courseName'], j['creditHours'], j['grade']))
-                    file.write("{:<9} {:<12} {:<12} {:<10}\n".format(j['courseID'], j['courseName'], j['creditHours'], j['grade']))
+                    print ("{:<9} {:<12} {:<12} {:<10}".format(j['courseID'], j['courseName'], j['creditHours'], j['Grade']))
+                    file.write("{:<9} {:<12} {:<12} {:<10}\n".format(j['courseID'], j['courseName'], j['creditHours'], j['Grade']))
             print(f"\n\nMinor Average = {minor_ave}\nOverall Average = {int(perterm_sum / perterm_count)}")
             file.write(f"\n\nMinor Average = {minor_ave}\nOverall Average = {int(perterm_sum / perterm_count)}\n")
         file.close()
@@ -388,46 +334,26 @@ class App:
         self.history.append(new_h)
 
     def fullTranscriptFeature(self, student_level, student_id, student):
-        data = []
-
-        file = open(f"{student_id}.csv")
-        reader = csv.reader(file)
-        tempheader = next(reader)
 
         major = 0
         minor = 0
 
-        for row in reader:
-            temp = {
-                "level": row[0],
-                "degree": row[1],
-                "term": int(row[2]),
-                "courseName": row[3],
-                "courseID": row[4],
-                "courseType": row[5],
-                "creditHours": row[6],
-                "grade": int(row[7]),
-            }
-
-            if temp['courseType'] == 'Major':
-                major += 1
-            elif temp['courseType'] == 'Minor':
-                minor += 1
-
-            data.append(temp)
-        
         full_ave = 0
         full_sum = 0
         full_count = 0
 
-        for i in data:
+        for i in self.student_grades:
             if i['courseType'] == 'Major':
-                full_sum += i['grade']
+                full_sum += i["Grade"]
                 full_count += 1
+                major += 1
+            elif i['courseType'] == 'Minor':
+                minor += 1
+
         
         full_ave = int(full_sum / full_count)
 
-        all_terms = [i['term'] for i in data]
+        all_terms = [i["Term"] for i in self.student_grades]
         maxterm = max(all_terms)
 
         file = open(f"std{student_id}FullTranscript.txt", 'w')
@@ -446,19 +372,18 @@ class App:
 
             file.write(f"===================================\nTerm {i}\n===================================\n")
             file.write("{:<8} {:<12} {:<7} {:<10}\n".format('Course ID','Course Name','Credit Hours','Grade'))
-            for j in data:
-                if j['term'] == i:
-                    perterm_sum += j['grade']
+            for j in self.student_grades:
+                if j["Term"] == i:
+                    perterm_sum += j["Grade"]
                     perterm_count += 1
-                    print ("{:<9} {:<12} {:<12} {:<10}".format(j['courseID'], j['courseName'], j['creditHours'], j['grade']))
-                    file.write("{:<9} {:<12} {:<12} {:<10}\n".format(j['courseID'], j['courseName'], j['creditHours'], j['grade']))
+                    print ("{:<9} {:<12} {:<12} {:<10}".format(j['courseID'], j['courseName'], j['creditHours'], j["Grade"]))
+                    file.write("{:<9} {:<12} {:<12} {:<10}\n".format(j['courseID'], j['courseName'], j['creditHours'], j["Grade"]))
             print(f"\n\nFull Average = {full_ave}\nOverall Average = {int(perterm_sum / perterm_count)}")
             file.write(f"\n\nFull Average = {full_ave}\nOverall Average = {int(perterm_sum / perterm_count)}\n")
         file.close()
 
         today = date.today()
         now = datetime.now()
-        
 
         new_h = {
             "req": "Full",
@@ -480,10 +405,17 @@ class App:
 
 
     def newStudentFeature(self):
+        """ Asks for the new student's info """
         # Prompt user to select the new student's level and type/degree
         self.getStudentLevel()
         # Prompt user to enter the new student ID
         self.getStudentID()
+
+        # Read the record/grade of the new student, save each row as dictionary, then append it to student grades
+        with open(f'{self.student_id}.csv') as file:
+            reader = csv.DictReader(file)
+            for row in reader:
+                self.student_grades.append(row)
 
 
     def terminateFeature(self):
@@ -519,6 +451,7 @@ class App:
         buffer()
         clearScreen()
         self.menuFeature()
+
 
 def buffer():
     """ Acts as buffer to give enough time for user to read the texts """
