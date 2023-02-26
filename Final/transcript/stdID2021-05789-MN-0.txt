@@ -1,6 +1,0 @@
-Name: Shin Lim
-stdID: 2021-05789-MN-0
-Level(s): U
-Number of Terms: 5
-College(s): College3
-Department(s): BSCE3

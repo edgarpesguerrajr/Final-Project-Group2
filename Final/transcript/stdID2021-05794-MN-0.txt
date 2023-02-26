@@ -1,6 +1,0 @@
-Name: Siegfred Lorelle Mina
-stdID: 2021-05794-MN-0
-Level(s): G
-Number of Terms: 6
-College(s): College4
-Department(s): BSECE1
