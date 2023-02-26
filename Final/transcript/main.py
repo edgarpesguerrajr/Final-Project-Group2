@@ -270,7 +270,6 @@ class App:
                     print(f"\n\nMajor Average = {major_ave}\nTerm Average = {int(perterm_sum / perterm_count)}\n")
                     file.write(f"\n\nMajor Average = {major_ave}\nTerm Average = {int(perterm_sum / perterm_count)}\n")
 
-
         # Record this request with the current date and time, save it in history list via append
         today = date.today()
         now = datetime.now()
@@ -283,7 +282,8 @@ class App:
 
 
     def minorTranscriptFeature(self, student_level, student_id, student):
-
+        """  """
+        # BUG: OCCURS WHEN NO MINOR COURSE IN THAT TERM
         major = 0
         minor = 0
 
@@ -344,6 +344,7 @@ class App:
         self.history.append(new_h)
 
     def fullTranscriptFeature(self, student_level, student_id, student):
+        # TODO: FIX SPACING (SIMILAR TO MAJOR TRANSCRIPT
 
         major = 0
         minor = 0
