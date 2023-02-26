@@ -1,0 +1,18 @@
+===================================
+Graduate Level
+===================================
+Overall average (major and minor) for all terms: 95
+Average (major and minor) of each term: 95 & 94
+	Term 1: 90
+	Term 1: 92
+	Term 1: 98
+	Term 2: 99
+	Term 2: 94
+	Term 3: 91
+	Term 3: 93
+	Term 4: 97
+	Term 4: 99
+	Term 4: 99
+Maximum grade(s) and in which term(s): 99
+Minimum grade(s) and in which term(s): 90
+Do you have any repeated course(s)?: Y)?: Y

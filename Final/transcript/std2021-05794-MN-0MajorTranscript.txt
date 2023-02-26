@@ -1,46 +1,41 @@
-Name: Shin Lim
-stdID: 2021-05789-MN-0
-College: College3
-Department: BSCE3
-Major: 6
-Minor: 4
-Level: U
+Name: Siegfred Lorelle Mina
+stdID: 2021-05794-MN-0
+College: College4
+Department: BSECE1
+Major: 5
+Minor: 5
+Level: G
 Number of Terms: 4
 =========================================================================
 Term 1
 =========================================================================
 Course ID Course Name                              Credit Hours Grade
-CE 220    Mechanics of Solids                      4            91    
+EE 201    Analog Electronics Circuits              4            90    
+EE 422    Advanced Digital Circuit Design          3            92    
+EE 431    Antennas and Propagation                 2            98    
 
 
-Major Average = 93
-Term Average = 91
+Major Average = 95
+Term Average = 93
 =========================================================================
 Term 2
 =========================================================================
 Course ID Course Name                              Credit Hours Grade
-CE 340    Structural Analysis                      3            92    
 
-
-Major Average = 93
-Term Average = 92
+No registered major course this term.
 =========================================================================
 Term 3
 =========================================================================
 Course ID Course Name                              Credit Hours Grade
-CE 310    Fluid Mechanics                          3            96    
-CE 330    Geotechnical Engineering                 4            95    
-CE 440    Structural Design                        3            95    
 
-
-Major Average = 93
-Term Average = 95
+No registered major course this term.
 =========================================================================
 Term 4
 =========================================================================
 Course ID Course Name                              Credit Hours Grade
-CE 350    Transportation Engineering               4            93    
+EE 442    Wireless Communications                  2            99    
+EE 461    Advanced Control Systems                 3            99    
 
 
-Major Average = 93
-Term Average = 93
+Major Average = 95
+Term Average = 99

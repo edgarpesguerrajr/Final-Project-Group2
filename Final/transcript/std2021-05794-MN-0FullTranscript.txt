@@ -1,0 +1,39 @@
+Name: Siegfred Lorelle Mina
+stdID: 2021-05794-MN-0
+College: College4
+Department: BSECE1
+Major: 5
+Minor: 5
+Level: G
+Number of Terms: 4
+===================================
+Term 1
+===================================
+Course ID Course Name  Credit Hours Grade     
+EE 201    Analog Electronics Circuits 4            90        
+EE 422    Advanced Digital Circuit Design 3            92        
+EE 431    Antennas and Propagation 2            98        
+
+
+Full Average = 95
+Overall Average = 93
+===================================
+Term 2
+===================================
+Course ID Course Name  Credit Hours Grade     
+MATH 415  Applied Linear Algebra 4            99        
+EE 533    Microfabrication 2            94        
+
+
+Full Average = 95
+Overall Average = 96
+===================================
+Term 3
+===================================
+Course ID Course Name  Credit Hours Grade     
+EE 452    Energy Conversion 4            91        
+EE 557    Digital Systems Testing 3            93        
+
+
+Full Average = 95
+Overall Average = 92

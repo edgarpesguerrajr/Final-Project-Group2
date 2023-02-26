@@ -1,46 +1,47 @@
-Name: Shin Lim
-stdID: 2021-05789-MN-0
-College: College3
-Department: BSCE3
-Major: 6
-Minor: 4
-Level: U
+Name: Kenji Ilao
+stdID: 2021-05784-MN-0
+College: College2
+Department: BSME4
+Major: 7
+Minor: 3
+Level: G
 Number of Terms: 4
 =========================================================================
 Term 1
 =========================================================================
 Course ID Course Name                              Credit Hours Grade
-CE 220    Mechanics of Solids                      4            91    
+ME 470    Finite Element Analysis                  4            95    
+ME 410    Advanced Thermodynamics                  3            94    
 
 
-Major Average = 93
-Term Average = 91
+Major Average = 94
+Overall Average = 94
 =========================================================================
 Term 2
 =========================================================================
 Course ID Course Name                              Credit Hours Grade
-CE 340    Structural Analysis                      3            92    
+ME 471    Materials Selection in Mechanical Design 4            93    
+ME 440    Advanced Manufacturing Processes         4            96    
 
 
-Major Average = 93
-Term Average = 92
+Major Average = 94
+Overall Average = 94
 =========================================================================
 Term 3
 =========================================================================
 Course ID Course Name                              Credit Hours Grade
-CE 310    Fluid Mechanics                          3            96    
-CE 330    Geotechnical Engineering                 4            95    
-CE 440    Structural Design                        3            95    
+ME 470    Advanced Dynamics and Controls           4            92    
+ME 444    Computer-Aided Manufacturing             4            95    
 
 
-Major Average = 93
-Term Average = 95
+Major Average = 94
+Overall Average = 93
 =========================================================================
 Term 4
 =========================================================================
 Course ID Course Name                              Credit Hours Grade
-CE 350    Transportation Engineering               4            93    
+ME 300    Thermodynamics                           3            98    
 
 
-Major Average = 93
-Term Average = 93
+Major Average = 94
+Overall Average = 98

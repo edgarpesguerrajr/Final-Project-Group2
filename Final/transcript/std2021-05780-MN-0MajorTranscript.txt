@@ -1,46 +1,43 @@
-Name: Shin Lim
-stdID: 2021-05789-MN-0
-College: College3
-Department: BSCE3
-Major: 6
-Minor: 4
+Name: Edgar Esguerra Jr.
+stdID: 2021-05780-MN-0
+College: College1
+Department: BSCOE2
+Major: 5
+Minor: 5
 Level: U
 Number of Terms: 4
 =========================================================================
 Term 1
 =========================================================================
 Course ID Course Name                              Credit Hours Grade
-CE 220    Mechanics of Solids                      4            91    
+CS 241    Systems Programming                      4            99    
+CS 411    Database Systems                         3            95    
+CS 427    Software Engineering I                   4            97    
 
 
-Major Average = 93
-Term Average = 91
+Major Average = 97
+Overall Average = 97
 =========================================================================
 Term 2
 =========================================================================
 Course ID Course Name                              Credit Hours Grade
-CE 340    Structural Analysis                      3            92    
+CS 438    Communication Networks                   4            98    
 
 
-Major Average = 93
-Term Average = 92
+Major Average = 97
+Overall Average = 98
 =========================================================================
 Term 3
 =========================================================================
 Course ID Course Name                              Credit Hours Grade
-CE 310    Fluid Mechanics                          3            96    
-CE 330    Geotechnical Engineering                 4            95    
-CE 440    Structural Design                        3            95    
+CS 461    Operating Systems                        3            97    
 
 
-Major Average = 93
-Term Average = 95
+Major Average = 97
+Overall Average = 97
 =========================================================================
 Term 4
 =========================================================================
 Course ID Course Name                              Credit Hours Grade
-CE 350    Transportation Engineering               4            93    
 
-
-Major Average = 93
-Term Average = 93
+No registered major subject this term.
