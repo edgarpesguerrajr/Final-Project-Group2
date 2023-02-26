@@ -1,0 +1,11 @@
+Level,Degree,Term,courseName,courseID,courseType,creditHours,Grade
+U,BS1 ,1,Mechanics of Solids,CE 220,Major,4,91
+U,BS1 ,1,Water Resources Engineering,CE 444,Minor,3,95
+U,BS1 ,1,Air Pollution Engineering,CE 446,Minor,2,94
+U,BS1 ,2,Steel Design,CE 412,Minor,2,97
+U,BS1 ,2,Structural Analysis,CE 340,Major,3,92
+U,BS1 ,3,Fluid Mechanics,CE 310,Major,3,96
+U,BS1 ,3,Geotechnical Engineering,CE 330,Major,4,95
+U,BS1 ,3,Structural Design,CE 440,Major,3,95
+U,BS1 ,4,Soil Mechanics,CE 301,Minor,2,99
+U,BS1 ,4,Transportation Engineering,CE 350,Major,4,93

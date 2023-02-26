@@ -1,0 +1,11 @@
+Level,Degree,Term,courseName,courseID,courseType,creditHours,Grade
+U,BS1 ,1,Systems Programming,CS 241,Major,4,99
+U,BS1 ,1,Database Systems,CS 411,Major,3,95
+U,BS1 ,1,Introduction to Computer Science,CS 101,Minor,2,96
+U,BS1 ,1,Software Engineering I,CS 427,Major,4,97
+U,BS1 ,2,Data Structures and Algorithms,CS 225,Minor,2,98
+U,BS1 ,2,Communication Networks,CS 438,Major,4,98
+U,BS1 ,3,Computer Security I,CS 361,Minor,3,96
+U,BS1 ,3,Operating Systems,CS 461,Major,3,97
+U,BS1 ,3,Numerical Methods I,CS 357,Minor,2,99
+U,BS1 ,4,Introduction to Cryptography,CS 460,Minor,3,99

@@ -1,6 +1,0 @@
-Name: Jed Esguerra
-stdID: 12345
-Level(s): U
-Number of Terms: 8
-College(s): College6
-Department(s): BSCOE

@@ -1,0 +1,11 @@
+Level,Degree,Term,courseName,courseID,courseType,creditHours,Grade
+U,M1,1,Analog Electronics Circuits,EE 201,Major,4,90
+U,M1,1,Advanced Digital Circuit Design,EE 422,Major,3,92
+U,M1,1,Antennas and Propagation,EE 431,Major,2,98
+U,M1,2,Applied Linear Algebra,MATH 415,Minor,4,99
+U,M1,2,Microfabrication,EE 533,Minor,2,94
+U,M1,3,Energy Conversion,EE 452,Minor,4,91
+U,M1,3,Digital Systems Testing,EE 557,Minor,3,93
+U,M1,4,Nanoelectronics,EE 537,Minor,3,97
+U,M1,4,Wireless Communications,EE 442,Major,2,99
+U,M1,4,Advanced Control Systems,EE 461,Major,3,99
