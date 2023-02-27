@@ -542,7 +542,8 @@ class App:
 
     def terminateFeature(self):
         """ Terminates/exit/close the program """
-        sys.exit("Goodbye!\n")
+        print("The program is closing ...\nGoodbye!\n")
+        sys.exit()
 
 
     def menuManager(self):
