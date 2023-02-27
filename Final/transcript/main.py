@@ -103,6 +103,16 @@ class App:
             data["Term"] = int(data["Term"])
             data["Grade"] = int(data["Grade"])
 
+    def recordRequest(self, request):
+        """ Record this request with the current date and time, save it in history list via append """
+        today = date.today()
+        now = datetime.now()
+        new_h = {
+            "req": request,
+            "date": str(today.strftime("%d/%m/%Y")),
+            "time": f"{now.strftime('%H:%M')}"
+        }
+        self.history.append(new_h)
 
     def menuFeature(self):
         """ Show all available options in menu. Asks for a choice, then redirect to that feature """
@@ -114,10 +124,10 @@ class App:
     def detailsFeature(self, student):
         """ Display Details and save it in a text file """
         print(f"Name: {student['Name']}\nstdID: {student['stdID']}\nLevel(s): {student['Level']}\nNumber of Terms: {student['Terms']}\nCollege(s): {student['College']}\nDepartment(s): {student['Department']}")
-        file = open(f'stdID{student["stdID"]}.txt', 'w')
-        with file as f:
-            f.write(f"Name: {student['Name']}\nstdID: {student['stdID']}\nLevel(s): {student['Level']}\nNumber of Terms: {student['Terms']}\nCollege(s): {student['College']}\nDepartment(s): {student['Department']}")
-
+        with open(f'std{student["stdID"]}Details.txt', 'w') as file:
+            file.write(f"Name: {student['Name']}\nstdID: {student['stdID']}\nLevel(s): {student['Level']}\nNumber of Terms: {student['Terms']}\nCollege(s): {student['College']}\nDepartment(s): {student['Department']}")
+        # Record this request
+        self.recordRequest("Details")
 
     def statisticsFeature(self, student_level, student_id):
         sum = 0
@@ -162,7 +172,7 @@ class App:
             
             print(f"Maximum grade(s) and in which term(s): {max_grade}\nMinimum grade(s) and in which term(s): {min_grade}\nDo you have any repeated course(s)?: Y")
 
-            file = open(f"std{student_id}statistics.txt", 'w')
+            file = open(f"std{student_id}Statistics.txt", 'w')
             file.write(f'===================================\nUndergraduate Level\n===================================\nOverall average (major and minor) for all terms: {average}\nAverage (major and minor) of each term: {major_average} & {minor_average}\n')
             file.write(text_term)
             file.write(f"Maximum grade(s) and in which term(s): {max_grade}\nMinimum grade(s) and in which term(s): {min_grade}\nDo you have any repeated course(s)?: Y")
@@ -176,7 +186,7 @@ class App:
             
             print(f"Maximum grade(s) and in which term(s): {max_grade}\nMinimum grade(s) and in which term(s): {min_grade}\nDo you have any repeated course(s)?: Y")
 
-            file = open(f"std{student_id}statistics.txt", 'w')
+            file = open(f"std{student_id}Statistics.txt", 'w')
             file.write(f'===================================\nGraduate Level\n===================================\nOverall average (major and minor) for all terms: {average}\nAverage (major and minor) of each term: {major_average} & {minor_average}\n')
             file.write(text_term)
             file.write(f"Maximum grade(s) and in which term(s): {max_grade}\nMinimum grade(s) and in which term(s): {min_grade}\nDo you have any repeated course(s)?: Y")
@@ -199,16 +209,17 @@ class App:
             
             print(f"Maximum grade(s) and in which term(s): {max_grade}\nMinimum grade(s) and in which term(s): {min_grade}\nDo you have any repeated course(s)?: Y")
 
-            file = open(f"std{student_id}statistics.txt", 'w')
+            file = open(f"std{student_id}Statistics.txt", 'w')
             file.write(f'===================================\nUndergraduate Level\n===================================\nOverall average (major and minor) for all terms: {average}\nAverage (major and minor) of each term: {major_average} & {minor_average}\n')
             file.write(u_term)
             file.write(f"Maximum grade(s) and in which term(s): {max_grade}\nMinimum grade(s) and in which term(s): {min_grade}\nDo you have any repeated course(s)?: Y")
 
-            file = open(f"std{student_id}statistics.txt", 'w')
+            file = open(f"std{student_id}Statistics.txt", 'w')
             file.write(f'===================================\nGraduate Level\n===================================\nOverall average (major and minor) for all terms: {average}\nAverage (major and minor) of each term: {major_average} & {minor_average}\n')
             file.write(g_term)
             file.write(f"Maximum grade(s) and in which term(s): {max_grade}\nMinimum grade(s) and in which term(s): {min_grade}\nDo you have any repeated course(s)?: Y")
 
+        self.recordRequest("Statistics")
 
     def majorTranscriptFeature(self, student_level, student_id, student):
         """ Shows the transcript of the student's major courses """
@@ -269,15 +280,7 @@ class App:
                     print(f"\n\nMajor Average = {major_ave}\nTerm Average = {int(perterm_sum / perterm_count)}\n")
                     file.write(f"\n\nMajor Average = {major_ave}\nTerm Average = {int(perterm_sum / perterm_count)}\n")
 
-        # Record this request with the current date and time, save it in history list via append
-        today = date.today()
-        now = datetime.now()
-        new_h = {
-            "req": "Major",
-            "date": str(today.strftime("%d/%m/%Y")),
-            "time": f"{now.strftime('%H:%M')}"
-        }
-        self.history.append(new_h)
+        self.recordRequest("Major")
 
 
     def minorTranscriptFeature(self, student_level, student_id, student):
@@ -339,15 +342,8 @@ class App:
                     print(f"\n\nMinor Average = {minor_ave}\nTerm Average = {int(perterm_sum / perterm_count)}\n")
                     file.write(f"\n\nMinor Average = {minor_ave}\nTerm Average = {int(perterm_sum / perterm_count)}\n")
         
-        # Record this request with the current date and time, save it in history list via append
-        today = date.today()
-        now = datetime.now()
-        new_h = {
-            "req": "Minor",
-            "date": str(today.strftime("%d/%m/%Y")),
-            "time": f"{now.strftime('%H:%M')}"
-        }
-        self.history.append(new_h)
+        # Record this request
+        self.recordRequest("Minor")
 
 
     def fullTranscriptFeature(self, student_level, student_id, student):
@@ -409,25 +405,24 @@ class App:
                     print(f"\n\nFull Average = {full_ave}\nTerm Average = {int(perterm_sum / perterm_count)}\n")
                     file.write(f"\n\nFull Average = {full_ave}\nTerm Average = {int(perterm_sum / perterm_count)}\n")
 
-        # Record this request with the current date and time, save it in history list via append
-        today = date.today()
-        now = datetime.now()
-        new_h = {
-            "req": "Full",
-            "date": str(today.strftime("%d/%m/%Y")),
-            "time": f"{now.strftime('%H:%M')}"
-        }
-        self.history.append(new_h)
+        # Record this request
+        self.recordRequest("Full")
 
 
     def previousRequestsFeature(self, history, student_id):
-        file = open(f"std{student_id}.txt", 'w')
-        print("{:<10} {:<15} {:<7}".format('Request','Date','Time'))
-        print("=====================================")
-        for i in history:
-            print ("{:<11} {:<15} {:<12}".format(i['req'], i['date'], i['time']))
-            file.write("{:<11} {:<15} {:<12}\n".format(i['req'], i['date'], i['time']))
-        file.close()
+        """ Shows the previous requests of the student """
+        # TODO: UPDATE HISTORY BASED ON WHATS WRITTEN ON THE PREV REQUEST
+        # TODO: CLEAR HISTORY AFTER CHANGING STUDENT
+
+        # Create a txt file with a the student's name and previous request in its filename, if it exists, then overwrite it
+        with open(f"std{student_id}PreviousRequest.txt", 'w') as file:
+            print("{:^12} {:^15} {:^7}".format('Request','Date','Time'))
+            file.write("{:^12} {:^15} {:^7}\n".format('Request','Date','Time'))
+            print("=========================================")
+            file.write("=========================================\n")
+            for i in history:
+                print ("{:^12} {:^15} {:^7}".format(i['req'], i['date'], i['time']))
+                file.write("{:^12} {:^15} {:^7}\n".format(i['req'], i['date'], i['time']))
 
 
     def newStudentFeature(self):
