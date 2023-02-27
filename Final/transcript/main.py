@@ -46,8 +46,10 @@ class App:
         self.setStudentLevel()
         # Prompt user to enter their student ID
         self.setStudentID()
-        # Read the csv file of the student, then save it to student grades
+        # Read the csv file of the student's grade/record, then save it to student grades
         self.setStudentGrade()
+        # Read the csv file of the student's previous requests, then save it to  history
+        self.setHistory()
 
         # Pause the program and clear the screen
         buffer()
@@ -94,7 +96,7 @@ class App:
         # Clear the student grade list to give space for the new student's grade
         self.student_grades.clear()
         # Read the record/grade of the student, save each row as dictionary, then append it to student grades
-        with open(f'{self.student_id}.csv') as file:
+        with open(f'{self.student_id}.csv', "r") as file:
             reader = csv.DictReader(file)
             for row in reader:
                 self.student_grades.append(row)
@@ -102,6 +104,43 @@ class App:
         for data in self.student_grades:
             data["Term"] = int(data["Term"])
             data["Grade"] = int(data["Grade"])
+
+    def setHistory(self):
+        """ Read the csv file of the student's previous request and save it in history """
+        # Clear the history list to give space for the new student's history
+        self.history.clear()
+        filename = f"std{self.student_id}PreviousRequest.txt"
+        # If the previous request txt file of the student doesn't exists then do nothing
+        if not os.path.exists(filename):
+            return
+        # Open the previous request txt file of the student
+        with open(filename, 'r') as file:
+            # Skip the first two line (header)
+            reader = file.readlines()[2:]
+            # Loop through each line
+            for i in reader:
+                # Separate data by space
+                i = i.split()
+                # Via request dictionary, save each data to their appropriate header value
+                request = {
+                    "req": i[0],
+                    "date": i[1],
+                    "time": i[2]
+                }
+                # Append the request in history
+                self.history.append(request)
+    
+    def saveHistory(self):
+        """ Save previous requests of the student via txt file """
+        # Create a txt file with a the student's name and previous request in its filename, if it exists, then overwrite it
+        with open(f"std{self.student_id}PreviousRequest.txt", 'w') as file:
+            # write the header
+            file.write("{:^12} {:^15} {:^7}\n".format('Request','Date','Time'))
+            file.write("=========================================\n")
+            # Loop through history and write each request
+            for request in self.history:
+                file.write("{:^12} {:^15} {:^7}\n".format(request['req'], request['date'], request['time']))
+
 
     def recordRequest(self, request):
         """ Record this request with the current date and time, save it in history list via append """
@@ -411,19 +450,14 @@ class App:
 
     def previousRequestsFeature(self, history, student_id):
         """ Shows the previous requests of the student """
-        # TODO: UPDATE HISTORY BASED ON WHATS WRITTEN ON THE PREV REQUEST
-        # TODO: CLEAR HISTORY AFTER CHANGING STUDENT
-
-        # Create a txt file with a the student's name and previous request in its filename, if it exists, then overwrite it
-        with open(f"std{student_id}PreviousRequest.txt", 'w') as file:
-            print("{:^12} {:^15} {:^7}".format('Request','Date','Time'))
-            file.write("{:^12} {:^15} {:^7}\n".format('Request','Date','Time'))
-            print("=========================================")
-            file.write("=========================================\n")
-            for i in history:
-                print ("{:^12} {:^15} {:^7}".format(i['req'], i['date'], i['time']))
-                file.write("{:^12} {:^15} {:^7}\n".format(i['req'], i['date'], i['time']))
-
+        # Print the header
+        print("{:^12} {:^15} {:^7}".format('Request','Date','Time'))
+        print("=========================================")
+        # Loop through history and print and write each request
+        for request in history:
+            print ("{:^12} {:^15} {:^7}".format(request['req'], request['date'], request['time']))
+        # Save the requests in history in a text file
+        self.saveHistory()
 
     def newStudentFeature(self):
         """ Asks for the new student's info """
@@ -431,8 +465,11 @@ class App:
         self.setStudentLevel()
         # Prompt user to enter the new student ID
         self.setStudentID()
-        # Read the csv file of the student, then save it to student grades
+        # Read the csv file of the new student, then save it to student grades
         self.setStudentGrade()
+        # Read the csv file of the news student's previous request, then save it to history
+        self.setHistory()
+        
 
 
     def terminateFeature(self):
