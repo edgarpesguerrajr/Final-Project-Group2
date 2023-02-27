@@ -7,6 +7,8 @@ Siegfred Lorelle Mina - 2021-05794-MN-0 - 25%
 """
 
 # TODO: ADD COMMENTS
+# TODO: PASS ARGUMENTS WHEN CALLING METHODS IN MENU MANAGER
+# TODO: CHECK IF STATISTICS IS WORKING PROPERLY
 
 import csv
 import sys
@@ -169,6 +171,7 @@ class App:
         self.recordRequest("Details")
 
     def statisticsFeature(self, student_level, student_id):
+        """ TODO: FIX? OR REFACTOR? """
         sum = 0
         minor_sum = 0
         major_sum = 0
@@ -473,6 +476,7 @@ class App:
 
 
     def terminateFeature(self):
+        """ Terminates/exit/close the program """
         sys.exit("Goodbye!\n")
 
 
