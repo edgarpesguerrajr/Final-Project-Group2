@@ -9,6 +9,8 @@ Siegfred Lorelle Mina - 2021-05794-MN-0 - 25%
 # TODO: ADD COMMENTS
 # TODO: PASS ARGUMENTS WHEN CALLING METHODS IN MENU MANAGER
 # TODO: USE INTERPOLATED STRING (F-STRING) INSTEAD OF FORMAT FUNCTION
+# TODO: IN STATISTICS, AND TRANSCRIPTS, ONLY SHOW CHOSEN LEVEL AND DEGREE
+# TODO: CHECK IF STUDENT EXISTS BEFORE GOING TO MENU SCREEN
 
 import csv
 import sys
@@ -48,6 +50,14 @@ class App:
         self.setStudentLevel()
         # Prompt user to enter their student ID
         self.setStudentID()
+
+        # Ensure that the given student level, degree and id exists in the student details
+        if not self.isStudentRegistered():
+            print("\nA student with the given information doesn't exists. Try Again.")
+            buffer()
+            clearScreen()
+            self.startFeature()
+
         # Read the csv file of the student's grade/record, then save it to student grades
         self.setStudentGrade()
         # Read the csv file of the student's previous requests, then save it to  history
@@ -65,10 +75,14 @@ class App:
         # Asks for their student level
         print("\nSelect Student Level:\nUndergraduate (U)\nGraduate (G)\nBoth (B)")
         self.student_level = input("\nChoice: ").upper()
-        # Check if the given student level is valid
+        # If the student's level has a degree, then prompt for degree
         if self.student_level == "G" or self.student_level == "B":
             self.setDegreeLevel()
-        elif self.student_level != "U":
+        # If student us undergraduate, the degree is automatically BS (Bachelors)
+        elif self.student_level == "U":
+            self.student_type = "BS"
+        # If student level is invalid, then asks again
+        else:
             print("\nPlease use: U/G/B")
             self.setStudentLevel()
 
@@ -84,6 +98,7 @@ class App:
 
     def setStudentID(self):
         """ Prompt user to enter student ID and check if it exists in the data list """
+        #TODO: APPEND ALL MATCHING STUDENT TO STUDENT VARIABLE SO DETAILS FEATURE CAN PRINT IT PROPERLY
         # Prompt for the new student id
         self.student_id = input("\nEnter your Student ID: ")
         # Check if the given student id is registered
@@ -92,6 +107,18 @@ class App:
                 self.student = student
                 return
         self.setStudentID()
+
+    def isStudentRegistered(self):
+        """ Checks if the student information given is registered in the student details csv """
+        for student in self.student_list:
+            if student["stdID"] != self.student_id:
+                continue
+            if student["Level"] != self.student_level and self.student_level != "B":
+                continue
+            if student["Degree"][0] != self.student_type[0] and self.student_type != "B0":
+                continue
+            return True
+        return False
 
     def setStudentGrade(self):
         """ Read the csv file of the student, then save it to student grades """
@@ -120,14 +147,14 @@ class App:
             # Skip the first two line (header)
             reader = file.readlines()[2:]
             # Loop through each line
-            for i in reader:
-                # Separate data by space
-                i = i.split()
+            for line in reader:
+                # Separate data in a line by space
+                line = line.split()
                 # Via request dictionary, save each data to their appropriate header value
                 request = {
-                    "req": i[0],
-                    "date": i[1],
-                    "time": i[2]
+                    "req": line[0],
+                    "date": line[1],
+                    "time": line[2]
                 }
                 # Append the request in history
                 self.history.append(request)
@@ -136,7 +163,7 @@ class App:
         """ Save previous requests of the student via txt file """
         # Create a txt file with a the student's name and previous request in its filename, if it exists, then overwrite it
         with open(f"std{self.student_id}PreviousRequest.txt", 'w') as file:
-            # write the header
+            # Write the header
             file.write("{:^12} {:^15} {:^7}\n".format('Request','Date','Time'))
             file.write("=========================================\n")
             # Loop through history and write each request
@@ -534,6 +561,14 @@ class App:
         self.setStudentLevel()
         # Prompt user to enter the new student ID
         self.setStudentID()
+
+        # Ensure that the given student level, degree and id exists in the student details
+        if not self.isStudentRegistered():
+            print("\nA student with the given information doesn't exists. Try Again.")
+            buffer()
+            clearScreen()
+            self.startFeature()
+
         # Read the csv file of the new student, then save it to student grades
         self.setStudentGrade()
         # Read the csv file of the news student's previous request, then save it to history
