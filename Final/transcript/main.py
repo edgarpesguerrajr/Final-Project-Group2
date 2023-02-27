@@ -8,7 +8,6 @@ Siegfred Lorelle Mina - 2021-05794-MN-0 - 25%
 
 # TODO: ADD COMMENTS
 # TODO: PASS ARGUMENTS WHEN CALLING METHODS IN MENU MANAGER
-# TODO: CHECK IF STATISTICS IS WORKING PROPERLY
 
 import csv
 import sys
@@ -172,79 +171,159 @@ class App:
         self.recordRequest("Details")
 
     def statisticsFeature(self, student_level, student_id):
-        """ TODO: FIX? OR REFACTOR? """
+        """ Show some statistics about the student's grade/record. Examples are average grade per term, minimum and maximum grades. """
+        # Initialize variables
         grades = [grade["Grade"] for grade in self.student_grades]
         average = int(sum(grades) / len(grades))
-
-
         max_grade = max(grades)
         min_grade = min(grades)
         terms_with_max_grade = {str(grade["Term"]) for grade in self.student_grades if grade["Grade"] == max_grade}
         terms_with_min_grade = {str(grade["Term"]) for grade in self.student_grades if grade["Grade"] == min_grade}
-
         max_term = max([grade["Term"] for grade in self.student_grades])
 
+        # Show average of terms depending on student level
         if student_level == 'U':
             text_term = ''
-            print(f'===================================\nUndergraduate Level\n===================================\nOverall average (major and minor) for all terms: {average}\nAverage (major and minor) of each term:')
+            # Save and print the header
+            text_header = (
+                f"===================================================================\nUndergraduate Level\n===================================================================\n"
+                f"Overall average (major and minor) for all terms: {average}\n"
+                f"Average (major and minor) of each term:"
+            )
+            print(text_header)
 
+            # Loop through each terms
             for term in range(1, max_term + 1):
                 grades_per_term = []
+                # Loop through the student's grade/record, get the average grade per term
                 for grade in self.student_grades:
                     if term == grade["Term"]:
                         grades_per_term.append(grade["Grade"])
                 average_per_term = int(sum(grades_per_term) / len(grades_per_term))
+                # Print the term and the average grade, also concatenate it text term string which will later be used to write in the txt file
                 print(f"\tTerm {term}: {average_per_term}")
-            
-            print(f"\nMaximum grade(s) and in which term(s): {max_grade} in term {', '.join(terms_with_max_grade)}\nMinimum grade(s) and in which term(s): {min_grade} in term {', '.join(terms_with_min_grade)}\nDo you have any repeated course(s)?: Y")
+                text_term += f"\tTerm {term}: {average_per_term}\n"
 
-            file = open(f"std{student_id}Statistics.txt", 'w')
-            file.write(f'===================================\nUndergraduate Level\n===================================\nOverall average (major and minor) for all terms: {average}\nAverage (major and minor) of each term:\n')
-            file.write(text_term)
-            file.write(f"\nMaximum grade(s) and in which term(s): {max_grade} in term {', '.join(terms_with_max_grade)}\nMinimum grade(s) and in which term(s): {min_grade} in term {', '.join(terms_with_min_grade)}\nDo you have any repeated course(s)?: Y")
+            # Save and print the text for minimum and maximum grades
+            text_max_min = (
+                f"\nMaximum grade(s) and in which term(s): {max_grade} in term {', '.join(terms_with_max_grade)}"
+                f"\nMinimum grade(s) and in which term(s): {min_grade} in term {', '.join(terms_with_min_grade)}"
+                "\nDo you have any repeated course(s)?: Y"
+            )
+            print(text_max_min)
+
+            # Write the printed texts in a txt file
+            with open(f"std{student_id}Statistics.txt", 'w') as file:
+                file.write(f'{text_header}\n')
+                file.write(text_term)
+                file.write(text_max_min)
+
+
         elif student_level == 'G':
             text_term = ''
-            print(f'===================================\nGraduate Level\n===================================\nOverall average (major and minor) for all terms: {average}\nAverage (major and minor) of each term:')
+            # Save and print the header
+            text_header = (
+                f"===================================================================\nGraduate Level\n===================================================================\n"
+                f"Overall average (major and minor) for all terms: {average}\n"
+                f"Average (major and minor) of each term:"
+            )
+            print(text_header)
 
-            for i in self.student_grades:
-                print(f"\tTerm {i['Term']}: {i['Grade']}\n")
-                text_term += f"\tTerm {i['Term']}: {i['Grade']}\n"
+            # Loop through each terms
+            for term in range(1, max_term + 1):
+                grades_per_term = []
+                # Loop through the student's grade/record, get the average grade per term
+                for grade in self.student_grades:
+                    if term == grade["Term"]:
+                        grades_per_term.append(grade["Grade"])
+                average_per_term = int(sum(grades_per_term) / len(grades_per_term))
+                # Print the term and the average grade, also concatenate it text term string which will later be used to write in the txt file
+                print(f"\tTerm {term}: {average_per_term}")
+                text_term += f"\tTerm {term}: {average_per_term}\n"
             
-            print(f"Maximum grade(s) and in which term(s): {max_grade}\nMinimum grade(s) and in which term(s): {min_grade}\nDo you have any repeated course(s)?: Y")
+            # Save and print the text for minimum and maximum grades
+            text_max_min = (
+                f"\nMaximum grade(s) and in which term(s): {max_grade} in term {', '.join(terms_with_max_grade)}"
+                f"\nMinimum grade(s) and in which term(s): {min_grade} in term {', '.join(terms_with_min_grade)}"
+                "\nDo you have any repeated course(s)?: Y"
+            )
+            print(text_max_min)
 
-            file = open(f"std{student_id}Statistics.txt", 'w')
-            file.write(f'===================================\nGraduate Level\n===================================\nOverall average (major and minor) for all terms: {average}\nAverage (major and minor) of each term:\n')
-            file.write(text_term)
-            file.write(f"Maximum grade(s) and in which term(s): {max_grade}\nMinimum grade(s) and in which term(s): {min_grade}\nDo you have any repeated course(s)?: Y")
+            # Write the printed texts in a txt file
+            with open(f"std{student_id}Statistics.txt", 'w') as file:
+                file.write(f'{text_header}\n')
+                file.write(text_term)
+                file.write(text_max_min)
+
+
         elif student_level == 'B':
             u_term = ''
-            print(f'===================================\nUndergraduate Level\n===================================\nOverall average (major and minor) for all terms: {average}\nAverage (major and minor) of each term:')
+            # Save and print the header
+            u_header = (
+                f"===================================================================\nUndergraduate Level\n===================================================================\n"
+                f"Overall average (major and minor) for all terms: {average}\n"
+                f"Average (major and minor) of each term:"
+            )
+            print(u_header)
 
-            for i in self.student_grades:
-                print(f"\tTerm {i['Term']}: {i['Grade']}\n")
-                u_term += f"\tTerm {i['Term']}: {i['Grade']}\n"
+            # Loop through each terms
+            for term in range(1, max_term + 1):
+                grades_per_term = []
+                # Loop through the student's grade/record, get the average grade per term
+                for grade in self.student_grades:
+                    if term == grade["Term"]:
+                        grades_per_term.append(grade["Grade"])
+                average_per_term = int(sum(grades_per_term) / len(grades_per_term))
+                # Print the term and the average grade, also concatenate it text term string which will later be used to write in the txt file
+                print(f"\tTerm {term}: {average_per_term}")
+                u_term += f"\tTerm {term}: {average_per_term}\n"
             
-            print(f"Maximum grade(s) and in which term(s): {max_grade}\nMinimum grade(s) and in which term(s): {min_grade}\nDo you have any repeated course(s)?: Y\n")
+            # Save and print the text for minimum and maximum grades
+            u_max_min = (
+                f"\nMaximum grade(s) and in which term(s): {max_grade} in term {', '.join(terms_with_max_grade)}"
+                f"\nMinimum grade(s) and in which term(s): {min_grade} in term {', '.join(terms_with_min_grade)}"
+                "\nDo you have any repeated course(s)?: Y"
+            )
+            print(f"{u_max_min}\n")
 
             g_term = ''
-            print(f'===================================\nGraduate Level\n===================================\nOverall average (major and minor) for all terms: {average}\nAverage (major and minor) of each term:')
+            g_header = (
+                f"===================================================================\nGraduate Level\n===================================================================\n"
+                f"Overall average (major and minor) for all terms: {average}\n"
+                f"Average (major and minor) of each term:"
+            )
+            print(g_header)
 
-            for i in self.student_grades:
-                print(f"\tTerm {i['Term']}: {i['Grade']}\n")
-                g_term += f"\tTerm {i['Term']}: {i['Grade']}\n"
+            # Loop through each terms
+            for term in range(1, max_term + 1):
+                grades_per_term = []
+                # Loop through the student's grade/record, get the average grade per term
+                for grade in self.student_grades:
+                    if term == grade["Term"]:
+                        grades_per_term.append(grade["Grade"])
+                average_per_term = int(sum(grades_per_term) / len(grades_per_term))
+                # Print the term and the average grade, also concatenate it text term string which will later be used to write in the txt file
+                print(f"\tTerm {term}: {average_per_term}")
+                g_term += f"\tTerm {term}: {average_per_term}\n"
             
-            print(f"Maximum grade(s) and in which term(s): {max_grade}\nMinimum grade(s) and in which term(s): {min_grade}\nDo you have any repeated course(s)?: Y")
+            # Save and print the text for minimum and maximum grades
+            g_max_min = (
+                f"\nMaximum grade(s) and in which term(s): {max_grade} in term {', '.join(terms_with_max_grade)}"
+                f"\nMinimum grade(s) and in which term(s): {min_grade} in term {', '.join(terms_with_min_grade)}"
+                "\nDo you have any repeated course(s)?: Y"
+            )
+            print(g_max_min)
 
-            file = open(f"std{student_id}Statistics.txt", 'w')
-            file.write(f'===================================\nUndergraduate Level\n===================================\nOverall average (major and minor) for all terms: {average}\nAverage (major and minor) of each term:\n')
-            file.write(u_term)
-            file.write(f"Maximum grade(s) and in which term(s): {max_grade}\nMinimum grade(s) and in which term(s): {min_grade}\nDo you have any repeated course(s)?: Y")
+            # Write the printed texts in a txt file
+            with open(f"std{student_id}Statistics.txt", 'w') as file:
+                file.write(f'{u_header}\n')
+                file.write(u_term)
+                file.write(f"{u_max_min}\n\n")
+                file.write(f'{g_header}\n')
+                file.write(g_term)
+                file.write(g_max_min)
 
-            file = open(f"std{student_id}Statistics.txt", 'w')
-            file.write(f'===================================\nGraduate Level\n===================================\nOverall average (major and minor) for all terms: {average}\nAverage (major and minor) of each term:\n')
-            file.write(g_term)
-            file.write(f"Maximum grade(s) and in which term(s): {max_grade}\nMinimum grade(s) and in which term(s): {min_grade}\nDo you have any repeated course(s)?: Y")
-
+        # Record this request
         self.recordRequest("Statistics")
 
 
@@ -307,6 +386,7 @@ class App:
                     print(f"\n\nMajor Average = {major_ave}\nTerm Average = {int(perterm_sum / perterm_count)}\n")
                     file.write(f"\n\nMajor Average = {major_ave}\nTerm Average = {int(perterm_sum / perterm_count)}\n")
 
+        # Record this request
         self.recordRequest("Major")
 
 
