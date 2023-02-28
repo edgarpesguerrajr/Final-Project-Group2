@@ -46,6 +46,16 @@ class App:
 
     def startFeature(self):
         """ Load student data from student details CSV file then prompt user for their student level, type, and id """
+        # Resets the variables to give way for new student
+        self.student_list.clear()
+        self.student_level.clear()
+        self.student_type.clear()
+        self.student["Name"] = ""
+        self.student["Levels"].clear()
+        self.student["Colleges"].clear()
+        self.student["Departments"].clear()
+        self.student["Num of terms"] = 0
+        
         # Read student details CSV file, save each row as a dictionary then append that dictionary to data
         with open('studentDetails.csv') as file:
             reader = csv.DictReader(file)
@@ -59,12 +69,10 @@ class App:
 
         # Ensure that the given student level, degree and id exists in the student details
         if not self.isStudentRegistered():
-            self.student_level.clear()
-            self.student_type.clear()
             print("\nA student with the given information doesn't exists. Try Again.")
             buffer()
             clearScreen()
-            self.startFeature()
+            return self.startFeature()
 
         # Read the he student details csv of the which contains all students, save only the information relevant to the user
         self.setStudentInfos()
@@ -86,6 +94,7 @@ class App:
             "U": "Undergraduate",
             "G": "Graduate",
         }
+
         # Asks for their student level
         print("\nSelect Student Level:\nUndergraduate (U)\nGraduate (G)\nBoth (B)")
 
@@ -112,6 +121,7 @@ class App:
             "M": "Master",
             "D": "Doctorate",
         }
+
         # Ask for their degree/type
         print("\nSelect your level type:\nMaster (M)\nDoctorate (D)\nBoth (B0)")
         while True:
@@ -120,21 +130,20 @@ class App:
                 self.student_type.add(degree)
                 break
             elif degree == "B0":
-                self.student_type.update(["M", "D"])
+                self.student_type.update({"M", "D"})
                 break
             print("\nPlease use: M/D/B0")
 
 
     def setStudentID(self):
         """ Prompt user to enter student ID and check if it exists in the data list """
-        #TODO: APPEND ALL MATCHING STUDENT TO STUDENT VARIABLE SO DETAILS FEATURE CAN PRINT IT PROPERLY
         # Prompt for the new student id
         self.student_id = input("\nEnter your Student ID: ")
         # Check if the given student id is registered
         for student in self.student_list:
             if student['stdID'] == self.student_id:
                 return
-        self.setStudentID()
+        return self.setStudentID()
 
     def setStudentInfos(self):
         """ Save student information relevant to the user """
@@ -142,10 +151,13 @@ class App:
         for student in self.student_list:
             if student["stdID"] != self.student_id:
                 continue
-            if student["Level"] != self.student_level and self.student_level != "B":
+            if student["Level"] not in self.student_level:
                 continue
-            if student["Degree"][0] != self.student_type[0] and self.student_type != "B0":
+            # Degrees in the student details csv has digits, so strip them to match degree inputted by the user
+            degree_without_digits = ''.join(i for i in student["Degree"] if not i.isdigit()).strip()
+            if degree_without_digits not in self.student_type:
                 continue
+
             # If student matches the information given by user then save the information in student dictionary
             self.student["Name"] = student["Name"]
             self.student["Levels"].add(student["Level"])
@@ -156,17 +168,12 @@ class App:
     def isStudentRegistered(self):
         """ Checks if the student information given is registered in the student details csv """
         for student in self.student_list:
-            # print(f"{''.join(i for i in student['Degree'] if not i.isdigit())}{self.student_type}")
-            # print(''.join(i for i in student["Degree"] if not i.isdigit()).strip() in self.student_type)
-            # print(''.join(i for i in student["Degree"] if not i.isdigit())+self.student_type)
-            # print()
-            # print(student["Level"] in self.student_level)
             if student["stdID"] != self.student_id:
                 continue
             if student["Level"] not in self.student_level:
                 continue
-            if ''.join(i for i in student["Degree"] if not i.isdigit()).strip() not in self.student_type:
-                # print("PUMASOK")
+            degrees_without_digits = ''.join(i for i in student["Degree"] if not i.isdigit()).strip()
+            if degrees_without_digits not in self.student_type:
                 continue
             return True
         return False
