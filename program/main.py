@@ -457,62 +457,118 @@ class App:
 
     def fullTranscriptFeature(self, student_level, student_id, student):
         """ Shows the transcript of the student's courses (both major and minor courses) """
+
         # Initialize variables
-        major = 0
-        minor = 0
-        full_ave = 0
-        full_sum = 0
-        full_count = 0
+        major_courses = [grade for grade in self.student_grades if grade["courseType"] == "Major"]
+        minor_courses = [grade for grade in self.student_grades if grade["courseType"] == "Minor"]
 
-        # Count the number of major and minor courses, compute the student's overall grade
-        for i in self.student_grades:
-            full_sum += i["Grade"]
-            full_count += 1
-            if i['courseType'] == 'Major':
-                major += 1
-            elif i['courseType'] == 'Minor':
-                minor += 1
-        # Get the student's average grade in all his/her courses
-        full_ave = int(full_sum / full_count)
-        # Get all of the student's terms and find the highest/latest
-        all_terms = [i["Term"] for i in self.student_grades]
-        maxterm = max(all_terms)
+        name = student['Name']
+        student_id = student_id
+        num_of_major = str(len(major_courses))
+        num_of_minor = str(len(minor_courses))
+        colleges = ', '.join(sorted(self.student['Colleges'], reverse=True))
+        departments = ', '.join(sorted(self.student['Departments'], reverse=True))
+        levels = ', '.join(sorted(self.student['Levels'], reverse=True))
+        last_term = max([grade["Term"] for grade in self.student_grades])
 
-        # Create a txt file with a the student's name and full transcript in its filename, if it exists, then overwrite it
-        with open(f"std{student_id}FullTranscript.txt", 'w') as file:
-            # Print and write general information the student before proceeding to the transcript of his/her courses
-            print(f"Name: {student['Name']}\nstdID: {student['stdID']}\nCollege: {student['College']}\nDepartment: {student['Department']}\nMajor: {major}\nMinor: {minor}\nLevel: {student['Level']}\nNumber of Terms: {maxterm}")
-            file.write(f"Name: {student['Name']}\nstdID: {student['stdID']}\nCollege: {student['College']}\nDepartment: {student['Department']}\nMajor: {major}\nMinor: {minor}\nLevel: {student['Level']}\nNumber of Terms: {maxterm}\n")
+        text = (
+            f"{'Name: ' + name: <50} student ID: {student_id}\n"
+            f"{'College: ' + colleges:<50} Department: {departments}\n"
+            f"{'Major: ' + num_of_major:<50} Minor: {num_of_minor}\n"
+            f"{'Level: ' + levels:<50} Number of terms: {last_term}\n\n"
+        )
 
-            # Loop from 1 until the latest term
-            for i in range(1, maxterm + 1):
-                # Initialize variables
-                perterm_sum = 0
-                perterm_count = 0
-                # Print the header for each term
-                print(f"=========================================================================\nTerm {i}\n=========================================================================\n")
-                print ("{:^8} {:^40} {:^5} {:^5}".format('Course ID','Course Name','Credit Hours','Grade'))
-                # Write the same header in the text file
-                file.write(f"=========================================================================\nTerm {i}\n=========================================================================\n")
-                file.write("{:^8} {:^40} {:^5} {:^5}\n".format('Course ID','Course Name','Credit Hours','Grade'))
-                # Loop through each data in the student's grade/record to find courses in the current term
-                for j in self.student_grades:
-                    # If the course is in the current term, then add the grade and increment the counter for number of courses per term
-                    if j["Term"] == i:
-                        perterm_sum += j["Grade"]
-                        perterm_count += 1
-                        # Print and write in the text file the information about the course
-                        print ("{:^9} {:^40} {:^12} {:^5}".format(j['courseID'], j['courseName'], j['creditHours'], j["Grade"]))
-                        file.write("{:^9} {:^40} {:^12} {:^5}\n".format(j['courseID'], j['courseName'], j['creditHours'], j["Grade"]))
+        # Compute overall average in all major courses
+        full_grades = [grade["Grade"] for grade in self.student_grades]
+        overall_average = str(int(sum(full_grades) / len(full_grades)))
+
+        for term in range(1, last_term + 1):
+            # Concatenate the header for each term
+            text += (
+                f"=================================================================================\n"
+                f"Term {term}"
+                f"\n=================================================================================\n"
+            )
+
+            grades_per_term = []
+            course_text = ""
+            for grade in self.student_grades:
+                if term == grade["Term"]:
+                    grades_per_term.append(grade["Grade"])
+                    course_text += f"{grade['courseID']:^12} {grade['courseName']:^43} {grade['creditHours']:^12} {grade['Grade']:^8}\n"
+
+            # Solve the average
+            if len(grades_per_term) <= 0:
+                text += "\nNo registered course this term.\n\n"
+                continue
+            
+            text += f"{'Course ID':^12} {'Course Name':^43} {'Credit Hours':^12} {'Grade':^10}\n"
+            text += course_text
+            average_grade_per_term = str(int(sum(grades_per_term) / len(grades_per_term)))
+            # # Concatenate the the average grade per term to text string
+            text += f"\n{'Overall Average: ' + overall_average:<58} Term Average: {average_grade_per_term}\n\n"
+
+        print(text)
+        with open(f"std{self.student_id}FullTranscript.txt", "w") as file:
+            file.write(text)
+
+
+        # # Initialize variables
+        # major = 0
+        # minor = 0
+        # full_ave = 0
+        # full_sum = 0
+        # full_count = 0
+
+        # # Count the number of major and minor courses, compute the student's overall grade
+        # for i in self.student_grades:
+        #     full_sum += i["Grade"]
+        #     full_count += 1
+        #     if i['courseType'] == 'Major':
+        #         major += 1
+        #     elif i['courseType'] == 'Minor':
+        #         minor += 1
+        # # Get the student's average grade in all his/her courses
+        # full_ave = int(full_sum / full_count)
+        # # Get all of the student's terms and find the highest/latest
+        # all_terms = [i["Term"] for i in self.student_grades]
+        # maxterm = max(all_terms)
+
+        # # Create a txt file with a the student's name and full transcript in its filename, if it exists, then overwrite it
+        # with open(f"std{student_id}FullTranscript.txt", 'w') as file:
+        #     # Print and write general information the student before proceeding to the transcript of his/her courses
+        #     print(f"Name: {student['Name']}\nstdID: {student['stdID']}\nCollege: {student['College']}\nDepartment: {student['Department']}\nMajor: {major}\nMinor: {minor}\nLevel: {student['Level']}\nNumber of Terms: {maxterm}")
+        #     file.write(f"Name: {student['Name']}\nstdID: {student['stdID']}\nCollege: {student['College']}\nDepartment: {student['Department']}\nMajor: {major}\nMinor: {minor}\nLevel: {student['Level']}\nNumber of Terms: {maxterm}\n")
+
+        #     # Loop from 1 until the latest term
+        #     for i in range(1, maxterm + 1):
+        #         # Initialize variables
+        #         perterm_sum = 0
+        #         perterm_count = 0
+        #         # Print the header for each term
+        #         print(f"=========================================================================\nTerm {i}\n=========================================================================\n")
+        #         print ("{:^8} {:^40} {:^5} {:^5}".format('Course ID','Course Name','Credit Hours','Grade'))
+        #         # Write the same header in the text file
+        #         file.write(f"=========================================================================\nTerm {i}\n=========================================================================\n")
+        #         file.write("{:^8} {:^40} {:^5} {:^5}\n".format('Course ID','Course Name','Credit Hours','Grade'))
+        #         # Loop through each data in the student's grade/record to find courses in the current term
+        #         for j in self.student_grades:
+        #             # If the course is in the current term, then add the grade and increment the counter for number of courses per term
+        #             if j["Term"] == i:
+        #                 perterm_sum += j["Grade"]
+        #                 perterm_count += 1
+        #                 # Print and write in the text file the information about the course
+        #                 print ("{:^9} {:^40} {:^12} {:^5}".format(j['courseID'], j['courseName'], j['creditHours'], j["Grade"]))
+        #                 file.write("{:^9} {:^40} {:^12} {:^5}\n".format(j['courseID'], j['courseName'], j['creditHours'], j["Grade"]))
                 
-                # After going through the grade/record, and no course is found, then just print and write that there was no course
-                if perterm_count == 0:
-                    print(f"\nNo registered course this term.\n")
-                    file.write(f"\nNo registered course this term.\n")
-                else:
-                    # Print and write the average in all courses and the average of courses in that term
-                    print(f"\n\nFull Average = {full_ave}\nTerm Average = {int(perterm_sum / perterm_count)}\n")
-                    file.write(f"\n\nFull Average = {full_ave}\nTerm Average = {int(perterm_sum / perterm_count)}\n")
+        #         # After going through the grade/record, and no course is found, then just print and write that there was no course
+        #         if perterm_count == 0:
+        #             print(f"\nNo registered course this term.\n")
+        #             file.write(f"\nNo registered course this term.\n")
+        #         else:
+        #             # Print and write the average in all courses and the average of courses in that term
+        #             print(f"\n\nFull Average = {full_ave}\nTerm Average = {int(perterm_sum / perterm_count)}\n")
+        #             file.write(f"\n\nFull Average = {full_ave}\nTerm Average = {int(perterm_sum / perterm_count)}\n")
 
         # Record this request
         self.recordRequest("Full")
