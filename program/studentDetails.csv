@@ -1,9 +1,9 @@
 Serial,stdID,Name,College,Department,Level,Degree,Major,Minor,Terms
-1,2021-05780-MN-0,Edgar Esguerra Jr.,College1,BSCOE2,U,BS1 ,ComputerNetworks,Artificial Intelligence,8
+1,2021-05780-MN-0,Edgar Esguerra Jr.,College1,BSCOE2,U,BS1 ,ComputerNetworks,Artificial Intelligence,4
 2,2021-05780-MN-0,Edgar Esguerra Jr.,College1,BSCOE2,G,M1,Software Engineering I,Introduction to Cryptography,4
-3,2021-05780-MN-0,Edgar Esguerra Jr.,College1,BSCOE2,G,D1 ,Systems Programming,Introduction to Computer Science,6
-4,2021-05784-MN-0,Kenji Ilao,College2,BSME4,U,BS1 ,Mechatronics,Calculus III,7
+3,2021-05780-MN-0,Edgar Esguerra Jr.,College1,BSCOE2,G,D1 ,Systems Programming,Introduction to Computer Science,3
+4,2021-05784-MN-0,Kenji Ilao,College2,BSME4,U,BS1 ,Mechatronics,Calculus III,4
 5,2021-05789-MN-0,Shin Lim,College3,BSCE3,G,M1,Mechanics of Solids,Air Pollution Engineering,4
-6,2021-05789-MN-0,Shin Lim,College1,BSCE2,G,M2,Geotechnical,Steel Design,3
-7,2021-05794-MN-0,Siegfred Lorelle Mina,College4,BSECE1,U,BS1 ,Antennas and Propagation,Systems Programming,8
-8,2021-05794-MN-0,Siegfred Lorelle Mina,College4,BSECE1,G,M1,Structural,Microfabrication,3
+6,2021-05789-MN-0,Shin Lim,College1,BSCE2,G,M2,Geotechnical,Steel Design,4
+7,2021-05794-MN-0,Siegfred Lorelle Mina,College4,BSECE1,U,BS1 ,Antennas and Propagation,Systems Programming,4
+8,2021-05794-MN-0,Siegfred Lorelle Mina,College4,BSECE1,G,M1,Structural,Microfabrication,4
