@@ -38,6 +38,7 @@ class App:
         self.student_list = []
         self.student_grades = []
         self.history = []
+        self.num_of_request = 0
 
         # Read student details CSV file, save each row as a dictionary then append that dictionary to student list
         self.setStudentList()
@@ -221,6 +222,7 @@ class App:
                 }
                 # Append the request in history
                 self.history.append(request)
+
     
     def saveHistory(self):
         """ Save previous requests of the student via txt file """
@@ -245,6 +247,8 @@ class App:
         }
         self.history.append(new_h)
         self.saveHistory()
+        # Increment the number of requests
+        self.num_of_request += 1
 
     def menuFeature(self):
         """ Show all available options in menu. Asks for a choice, then redirect to that feature """
@@ -527,6 +531,10 @@ class App:
         # Save the requests in history in a text file
         self.saveHistory()
 
+        # Increment the number of requests
+        self.num_of_request += 1
+
+
     def newStudentFeature(self):
         """ Asks for the new student's info (similar to start feature) """
         # Resets the variables to give space for new student
@@ -541,7 +549,6 @@ class App:
         if not self.isStudentRegistered():
             print("\nA student with the given information doesn't exists. Try Again.")
             buffer()
-            clearScreen()
             return self.newStudentFeature()
 
         # Read the he student details csv of the which contains all students, save only the information relevant to the user
@@ -554,6 +561,7 @@ class App:
 
     def terminateFeature(self):
         """ Terminates/exit/close the program """
+        print(f"There was a total of {self.num_of_request} requests this session.")
         print("The program is closing ...\nGoodbye!\n")
         sys.exit()
 
@@ -585,7 +593,6 @@ class App:
                 print("Invalid Input!")
         # After every feature, add a buffer to let user read, then clear screen and go back to menu screen
         buffer()
-        clearScreen()
         self.menuFeature()
 
 
