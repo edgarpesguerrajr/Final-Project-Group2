@@ -9,9 +9,7 @@ Siegfred Lorelle Mina - 2021-05794-MN-0 - 25%
 # TODO: ADD COMMENTS
 # TODO: PASS ARGUMENTS WHEN CALLING METHODS IN MENU MANAGER
 # TODO: USE INTERPOLATED STRING (F-STRING) INSTEAD OF FORMAT FUNCTION
-# TODO: IN STATISTICS, AND TRANSCRIPTS, ONLY SHOW CHOSEN LEVEL AND DEGREE
 # TODO: WHEN TERMINATING, TELL HOW MANY REQUEST TOTAL
-# TODO: CREATE FUNCTION FOR CLEAR VARIABLES
 
 import csv
 import sys
@@ -41,30 +39,17 @@ class App:
         self.student_grades = []
         self.history = []
 
-        # Call the startFeature method to assign data and student level, type, and id
+        # Read student details CSV file, save each row as a dictionary then append that dictionary to student list
+        self.setStudentList()
+        # Call the startFeature method to assign data about student level, type, and id, and other information about the student
         self.startFeature()
 
 
     def startFeature(self):
-        """ Load student data from student details CSV file then prompt user for their student level, type, and id """
-        # Resets the variables to give way for new student
-        self.student_list.clear()
-        self.student_level.clear()
-        self.student_type.clear()
-        self.student["Name"] = ""
-        self.student["Levels"].clear()
-        self.student["Colleges"].clear()
-        self.student["Departments"].clear()
-        self.student["Num of terms"] = 0
-        # Clear the student grade list to give space for the new student's grade
-        self.student_grades.clear()
+        """ Prompt user for their student level, type. load student data from csv files. """
+        # Resets the variables to give space for new student
+        self.resetVariables()
         
-        # Read student details CSV file, save each row as a dictionary then append that dictionary to data
-        with open('studentDetails.csv') as file:
-            reader = csv.DictReader(file)
-            for row in reader:
-                self.student_list.append(row)
-
         # Prompt user to select their student level and type/degree
         self.setStudentLevel()
         # Prompt user to enter their student ID
@@ -74,7 +59,6 @@ class App:
         if not self.isStudentRegistered():
             print("\nA student with the given information doesn't exists. Try Again.")
             buffer()
-            clearScreen()
             return self.startFeature()
 
         # Read the he student details csv of the which contains all students, save only the information relevant to the user
@@ -84,11 +68,30 @@ class App:
         # Read the txt file of the student's previous requests, then save it to  history
         self.setHistory()
 
-        # Pause the program and clear the screen
+        # Pause the program then clear the screen then redirect to menu screen
         buffer()
-        clearScreen()
-        # Redirect to menu screen
         self.menuFeature()
+
+
+    def resetVariables(self):
+        """ Resets the variables to give space for new student """
+        self.student_level.clear()
+        self.student_type.clear()
+        self.student["Name"] = ""
+        self.student["Levels"].clear()
+        self.student["Colleges"].clear()
+        self.student["Departments"].clear()
+        self.student["Num of terms"] = 0
+        self.student_grades.clear()
+        self.history.clear()
+
+
+    def setStudentList(self):
+        """ Read student details CSV file, save each row as a dictionary then append that dictionary to student l """
+        with open('studentDetails.csv') as file:
+            reader = csv.DictReader(file)
+            for row in reader:
+                self.student_list.append(row)
 
 
     def setStudentLevel(self):
@@ -97,7 +100,6 @@ class App:
             "U": "Undergraduate",
             "G": "Graduate",
         }
-
         # Asks for their student level
         print("\nSelect Student Level:\nUndergraduate (U)\nGraduate (G)\nBoth (B)")
 
@@ -199,8 +201,6 @@ class App:
 
     def setHistory(self):
         """ Read the csv file of the student's previous request and save it in history """
-        # Clear the history list to give space for the new student's history
-        self.history.clear()
         filename = f"std{self.student_id}PreviousRequest.txt"
         # If the previous request txt file of the student doesn't exists then do nothing
         if not os.path.exists(filename):
@@ -512,64 +512,6 @@ class App:
         with open(f"std{self.student_id}FullTranscript.txt", "w") as file:
             file.write(text)
 
-
-        # # Initialize variables
-        # major = 0
-        # minor = 0
-        # full_ave = 0
-        # full_sum = 0
-        # full_count = 0
-
-        # # Count the number of major and minor courses, compute the student's overall grade
-        # for i in self.student_grades:
-        #     full_sum += i["Grade"]
-        #     full_count += 1
-        #     if i['courseType'] == 'Major':
-        #         major += 1
-        #     elif i['courseType'] == 'Minor':
-        #         minor += 1
-        # # Get the student's average grade in all his/her courses
-        # full_ave = int(full_sum / full_count)
-        # # Get all of the student's terms and find the highest/latest
-        # all_terms = [i["Term"] for i in self.student_grades]
-        # maxterm = max(all_terms)
-
-        # # Create a txt file with a the student's name and full transcript in its filename, if it exists, then overwrite it
-        # with open(f"std{student_id}FullTranscript.txt", 'w') as file:
-        #     # Print and write general information the student before proceeding to the transcript of his/her courses
-        #     print(f"Name: {student['Name']}\nstdID: {student['stdID']}\nCollege: {student['College']}\nDepartment: {student['Department']}\nMajor: {major}\nMinor: {minor}\nLevel: {student['Level']}\nNumber of Terms: {maxterm}")
-        #     file.write(f"Name: {student['Name']}\nstdID: {student['stdID']}\nCollege: {student['College']}\nDepartment: {student['Department']}\nMajor: {major}\nMinor: {minor}\nLevel: {student['Level']}\nNumber of Terms: {maxterm}\n")
-
-        #     # Loop from 1 until the latest term
-        #     for i in range(1, maxterm + 1):
-        #         # Initialize variables
-        #         perterm_sum = 0
-        #         perterm_count = 0
-        #         # Print the header for each term
-        #         print(f"=========================================================================\nTerm {i}\n=========================================================================\n")
-        #         print ("{:^8} {:^40} {:^5} {:^5}".format('Course ID','Course Name','Credit Hours','Grade'))
-        #         # Write the same header in the text file
-        #         file.write(f"=========================================================================\nTerm {i}\n=========================================================================\n")
-        #         file.write("{:^8} {:^40} {:^5} {:^5}\n".format('Course ID','Course Name','Credit Hours','Grade'))
-        #         # Loop through each data in the student's grade/record to find courses in the current term
-        #         for j in self.student_grades:
-        #             # If the course is in the current term, then add the grade and increment the counter for number of courses per term
-        #             if j["Term"] == i:
-        #                 perterm_sum += j["Grade"]
-        #                 perterm_count += 1
-        #                 # Print and write in the text file the information about the course
-        #                 print ("{:^9} {:^40} {:^12} {:^5}".format(j['courseID'], j['courseName'], j['creditHours'], j["Grade"]))
-        #                 file.write("{:^9} {:^40} {:^12} {:^5}\n".format(j['courseID'], j['courseName'], j['creditHours'], j["Grade"]))
-                
-        #         # After going through the grade/record, and no course is found, then just print and write that there was no course
-        #         if perterm_count == 0:
-        #             print(f"\nNo registered course this term.\n")
-        #             file.write(f"\nNo registered course this term.\n")
-        #         else:
-        #             # Print and write the average in all courses and the average of courses in that term
-        #             print(f"\n\nFull Average = {full_ave}\nTerm Average = {int(perterm_sum / perterm_count)}\n")
-        #             file.write(f"\n\nFull Average = {full_ave}\nTerm Average = {int(perterm_sum / perterm_count)}\n")
-
         # Record this request
         self.recordRequest("Full")
 
@@ -586,7 +528,10 @@ class App:
         self.saveHistory()
 
     def newStudentFeature(self):
-        """ Asks for the new student's info """
+        """ Asks for the new student's info (similar to start feature) """
+        # Resets the variables to give space for new student
+        self.resetVariables()
+        
         # Prompt user to select the new student's level and type/degree
         self.setStudentLevel()
         # Prompt user to enter the new student ID
@@ -597,13 +542,14 @@ class App:
             print("\nA student with the given information doesn't exists. Try Again.")
             buffer()
             clearScreen()
-            self.startFeature()
+            return self.newStudentFeature()
 
-        # Read the csv file of the new student, then save it to student grades
+        # Read the he student details csv of the which contains all students, save only the information relevant to the user
+        self.setStudentInfos()
+        # Read the csv file of the student's grade/record, then save it to student grades
         self.setStudentGrade()
-        # Read the csv file of the news student's previous request, then save it to history
+        # Read the txt file of the student's previous requests, then save it to  history
         self.setHistory()
-        
 
 
     def terminateFeature(self):
@@ -646,6 +592,7 @@ class App:
 def buffer():
     """ Acts as buffer to give enough time for user to read the texts """
     input("\nPress enter to proceed ...")
+    clearScreen()
 
 def clearScreen():
     """ Clears the screen regardless of the OS """
