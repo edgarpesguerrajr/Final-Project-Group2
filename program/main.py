@@ -26,10 +26,16 @@ def main():
 class App:
     def __init__(self):
         """ Initialize all variables, then assign them in start feature """
-        self.student_level = ""
-        self.student_type = ""
+        self.student_level = set()
+        self.student_type = set()
         self.student_id = ""
-        self.student = {}
+        self.student = {
+            "Name": "",
+            "Levels": set(),
+            "Colleges": set(),
+            "Departments": set(),
+            "Num of terms": 0,
+        }
         self.student_list = []
         self.student_grades = []
         self.history = []
@@ -53,14 +59,18 @@ class App:
 
         # Ensure that the given student level, degree and id exists in the student details
         if not self.isStudentRegistered():
+            self.student_level.clear()
+            self.student_type.clear()
             print("\nA student with the given information doesn't exists. Try Again.")
             buffer()
             clearScreen()
             self.startFeature()
 
+        # Read the he student details csv of the which contains all students, save only the information relevant to the user
+        self.setStudentInfos()
         # Read the csv file of the student's grade/record, then save it to student grades
         self.setStudentGrade()
-        # Read the csv file of the student's previous requests, then save it to  history
+        # Read the txt file of the student's previous requests, then save it to  history
         self.setHistory()
 
         # Pause the program and clear the screen
@@ -72,29 +82,48 @@ class App:
 
     def setStudentLevel(self):
         """ Prompt user to select student level and then ask for type/degree if they have one """
+        LEVELS = {
+            "U": "Undergraduate",
+            "G": "Graduate",
+        }
         # Asks for their student level
         print("\nSelect Student Level:\nUndergraduate (U)\nGraduate (G)\nBoth (B)")
-        self.student_level = input("\nChoice: ").upper()
-        # If the student's level has a degree, then prompt for degree
-        if self.student_level == "G" or self.student_level == "B":
-            self.setDegreeLevel()
-        # If student us undergraduate, the degree is automatically BS (Bachelors)
-        elif self.student_level == "U":
-            self.student_type = "BS"
-        # If student level is invalid, then asks again
-        else:
+
+        while True:
+            level = input("\nChoice: ").upper()
+
+            if level in LEVELS:
+                self.student_level.add(level)
+                break
+            elif level == "B":
+                self.student_level.update(["U", "G"])
+                break
             print("\nPlease use: U/G/B")
-            self.setStudentLevel()
+        
+        if "U" in self.student_level:
+            self.student_type.add("BS")
+        if "G" in self.student_level:
+            self.setDegreeLevel()
+
 
     def setDegreeLevel(self):
         """ Prompt user to enter degree level """
+        DEGREES = {
+            "M": "Master",
+            "D": "Doctorate",
+        }
         # Ask for their degree/type
         print("\nSelect your level type:\nMaster (M)\nDoctorate (D)\nBoth (B0)")
-        self.student_type = input("\nChoice: ").upper()
-        # Check if the given degree/type is valid
-        if self.student_type != "M" and self.student_type != "D" and self.student_type != "B0":
+        while True:
+            degree = input("\nChoice: ").upper()
+            if degree in DEGREES:
+                self.student_type.add(degree)
+                break
+            elif degree == "B0":
+                self.student_type.update(["M", "D"])
+                break
             print("\nPlease use: M/D/B0")
-            self.setDegreeLevel()
+
 
     def setStudentID(self):
         """ Prompt user to enter student ID and check if it exists in the data list """
@@ -104,18 +133,40 @@ class App:
         # Check if the given student id is registered
         for student in self.student_list:
             if student['stdID'] == self.student_id:
-                self.student = student
                 return
         self.setStudentID()
 
-    def isStudentRegistered(self):
-        """ Checks if the student information given is registered in the student details csv """
+    def setStudentInfos(self):
+        """ Save student information relevant to the user """
+        # Loop through the student list to find information relevant to the user
         for student in self.student_list:
             if student["stdID"] != self.student_id:
                 continue
             if student["Level"] != self.student_level and self.student_level != "B":
                 continue
             if student["Degree"][0] != self.student_type[0] and self.student_type != "B0":
+                continue
+            # If student matches the information given by user then save the information in student dictionary
+            self.student["Name"] = student["Name"]
+            self.student["Levels"].add(student["Level"])
+            self.student["Colleges"].add(student["College"])
+            self.student["Departments"].add(student["Department"])
+            self.student["Num of terms"] += int(student["Terms"])
+
+    def isStudentRegistered(self):
+        """ Checks if the student information given is registered in the student details csv """
+        for student in self.student_list:
+            # print(f"{''.join(i for i in student['Degree'] if not i.isdigit())}{self.student_type}")
+            # print(''.join(i for i in student["Degree"] if not i.isdigit()).strip() in self.student_type)
+            # print(''.join(i for i in student["Degree"] if not i.isdigit())+self.student_type)
+            # print()
+            # print(student["Level"] in self.student_level)
+            if student["stdID"] != self.student_id:
+                continue
+            if student["Level"] not in self.student_level:
+                continue
+            if ''.join(i for i in student["Degree"] if not i.isdigit()).strip() not in self.student_type:
+                # print("PUMASOK")
                 continue
             return True
         return False
@@ -192,9 +243,20 @@ class App:
 
     def detailsFeature(self, student):
         """ Display Details and save it in a text file """
-        print(f"Name: {student['Name']}\nstdID: {student['stdID']}\nLevel(s): {student['Level']}\nNumber of Terms: {student['Terms']}\nCollege(s): {student['College']}\nDepartment(s): {student['Department']}")
-        with open(f'std{student["stdID"]}Details.txt', 'w') as file:
-            file.write(f"Name: {student['Name']}\nstdID: {student['stdID']}\nLevel(s): {student['Level']}\nNumber of Terms: {student['Terms']}\nCollege(s): {student['College']}\nDepartment(s): {student['Department']}")
+        text = (
+            f"Name: {student['Name']}"
+            f"\nstdID: {self.student_id}"
+            f"\nLevel(s): {', '.join(student['Levels'])}"
+            f"\nNumber of Terms: {student['Num of terms']}"
+            f"\nCollege(s): {', '.join(student['Colleges'])}"
+            f"\nDepartment(s): {', '.join(student['Departments'])}"
+        )
+
+
+        print(text)
+        with open(f'std{self.student_id}Details.txt', 'w') as file: 
+            file.write(text)
+        
         # Record this request
         self.recordRequest("Details")
 
