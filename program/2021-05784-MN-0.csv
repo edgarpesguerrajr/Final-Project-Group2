@@ -1,11 +1,11 @@
 Level,Degree,Term,courseName,courseID,courseType,creditHours,Grade
-G,BS1,1,Finite Element Analysis,ME 470,Major,4,95
-G,BS1,1,Advanced Thermodynamics,ME 410,Major,3,94
-G,BS1,2,Materials Selection in Mechanical Design,ME 471,Major,4,93
-G,BS1,2,Advanced Manufacturing Processes,ME 440,Major,4,96
-G,BS1,2,Calculus III,MATH 241,Minor,1,97
-G,BS1,3,Applied Linear Algebra,MATH 415,Minor,2,99
-G,BS1,3,Advanced Dynamics and Controls,ME 470,Major,4,92
-G,BS1,3,Computer-Aided Manufacturing,ME 444,Major,4,95
-G,BS1,4,Thermodynamics,ME 300,Major,3,98
-G,BS1,4,Principles of Marketing,BUS 302,Minor,1,93
+U,BS1,1,Finite Element Analysis,ME 470,Major,4,95
+U,BS1,1,Advanced Thermodynamics,ME 410,Major,3,94
+U,BS1,2,Materials Selection in Mechanical Design,ME 471,Major,4,93
+U,BS1,2,Advanced Manufacturing Processes,ME 440,Major,4,96
+U,BS1,2,Calculus III,MATH 241,Minor,1,97
+U,BS1,3,Applied Linear Algebra,MATH 415,Minor,2,99
+U,BS1,3,Advanced Dynamics and Controls,ME 470,Major,4,92
+U,BS1,3,Computer-Aided Manufacturing,ME 444,Major,4,95
+U,BS1,4,Thermodynamics,ME 300,Major,3,98
+U,BS1,4,Principles of Marketing,BUS 302,Minor,1,93
