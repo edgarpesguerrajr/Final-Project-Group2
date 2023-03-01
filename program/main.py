@@ -89,7 +89,7 @@ class App:
         if not os.path.exists(filename):
             print(
                 "\nERROR: Database is not found."
-                "\n\t(studentDetails.csv is missing)"
+                "\n       (studentDetails.csv is missing)"
             )
             sys.exit("\nClosing the program ...\n")
 
@@ -125,7 +125,7 @@ class App:
                 break
             # If given student level is invalid, then inform user on proper usage
             print("\nPlease use: U/G/B")
-        
+
         # If user has U (undergraduate), then user  automatically has degree BS (Bachelor)
         if "U" in self.student_level:
             self.student_degree.add("BS")
@@ -212,23 +212,24 @@ class App:
         if not os.path.exists(filename):
             print(
                 "\nERROR: The student's record is not found." 
-                "\n\t(csv file with student ID as file name is missing)"
+                "\n       (csv file with student ID as filename is missing)"
             )
             sys.exit("\nClosing the program ...\n")
 
-
-        # Read the record/grade of the student, save each row as dictionary, then append it to student grades
+        # Read the record/grade of the student
         with open(f'{self.student_id}.csv', "r") as file:
             reader = csv.DictReader(file)
+
+            # Save each row as dictionary, then append it to student grades
             for row in reader:
                 degree_without_digits = ''.join(i for i in row["Degree"] if not i.isdigit()).strip()
                 if row["Level"] in self.student_level and degree_without_digits in self.student_degree:
                     self.student_grades.append(row)
+
         # Convert term and grade into int, so they can perform arithmetic operations
         for data in self.student_grades:
             data["Term"] = int(data["Term"])
             data["Grade"] = int(data["Grade"])
-
 
     def setHistory(self):
         """ Read the csv file of the student's previous request and save it in history """
@@ -253,7 +254,6 @@ class App:
                 # Append the each request in history list
                 self.history.append(request)
 
-    
     def saveHistory(self):
         """ Save previous requests of the student via txt file """
         # Create a txt file with a the student's name and previous request in its filename, if it exists, then overwrite it
@@ -494,7 +494,7 @@ class App:
             if len(grades_per_term) <= 0:
                 text += "\nNo registered minor course this term.\n\n"
                 continue
-            
+
             # Concatenate the header of the table, and then information about each course
             text += f"{'Course ID':^12} {'Course Name':^43} {'Credit Hours':^12} {'Grade':^10}\n"
             text += course_text
@@ -506,7 +506,7 @@ class App:
         print(text)
         with open(f"std{self.student_id}MinorTranscript.txt", "w") as file:
             file.write(text)
-        
+
         # Record this request
         self.recordRequest("Minor")
 
@@ -595,7 +595,7 @@ class App:
         """ Asks for the new student's info (similar to start feature) """
         # Resets the variables to give space for new student
         self.resetVariables()
-        
+
         # Prompt user to select the new student's level and type/degree
         self.setStudentLevel()
         # Prompt user to enter the new student ID
