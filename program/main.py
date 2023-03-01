@@ -7,7 +7,7 @@ Siegfred Lorelle Mina - 2021-05794-MN-0 - 25%
 """
 
 # TODO: ADD COMMENTS
-# Rename variables
+# TODO: Rename variables
 
 import csv
 import sys
@@ -86,7 +86,7 @@ class App:
 
 
     def setStudentList(self):
-        """ Read student details CSV file, save each row as a dictionary then append that dictionary to student list """
+        """ Read student details CSV file, save each row as a dictionary, then append that dictionary to student list """
         filename = 'studentDetails.csv'
         # Ensures the csv containing student information exists
         if not os.path.exists(filename):
@@ -105,22 +105,30 @@ class App:
             "U": "Undergraduate",
             "G": "Graduate",
         }
-        # Asks for their student level
-        print("\nSelect Student Level:\nUndergraduate (U)\nGraduate (G)\nBoth (B)")
-
+        # Print all available student level options
+        print(
+            "\nSelect Student Level:"
+            "\nUndergraduate (U)"
+            "\nGraduate (G)"
+            "\nBoth (B)"
+        )
+        # Asks for their student level until a valid one is given
         while True:
-            level = input("\nChoice: ").upper()
-
+            level = input("\nChoice: ").strip().upper()
             if level in LEVELS:
                 self.student_level.add(level)
                 break
+            # If level is 'B' then it is both, so extend the set to include both U (undergraduate) and G (graduate)
             elif level == "B":
-                self.student_level.update(["U", "G"])
+                self.student_level.update({"U", "G"})
                 break
+            # If given student level is invalid, then inform user on proper usage
             print("\nPlease use: U/G/B")
         
+        # If user has U (undergraduate), then user  automatically has degree BS (Bachelor)
         if "U" in self.student_level:
             self.student_degree.add("BS")
+        # If user has G (graduate), then asks for his degree
         if "G" in self.student_level:
             self.setDegreeLevel()
 
@@ -131,29 +139,36 @@ class App:
             "M": "Master",
             "D": "Doctorate",
         }
-
-        # Ask for their degree
-        print("\nSelect your degree:\nMaster (M)\nDoctorate (D)\nBoth (B0)")
+        # Print all available degree options
+        print(
+            "\nSelect your degree:"
+            "\nMaster (M)"
+            "\nDoctorate (D)"
+            "\nBoth (B0)"
+        )
+        # Ask for their degree until a valid one is given
         while True:
-            degree = input("\nChoice: ").upper()
+            degree = input("\nChoice: ").strip().upper()
             if degree in DEGREES:
                 self.student_degree.add(degree)
                 break
+            # If degree is 'B0' then it is both, so extend the set to include both M (master) and D (doctorate)
             elif degree == "B0":
                 self.student_degree.update({"M", "D"})
                 break
+            # If given degree is invalid, then inform user on proper usage
             print("\nPlease use: M/D/B0")
 
 
     def setStudentID(self):
-        """ Prompt user to enter student ID and check if it exists in the data list """
-        # Prompt for the new student id
-        self.student_id = input("\nEnter your Student ID: ")
-        # Check if the given student id is registered
-        for student in self.student_list:
-            if student['stdID'] == self.student_id:
-                return
-        return self.setStudentID()
+        """ Prompt user to enter student ID and check if it is registered in the student list """
+        # Prompt for student id until a registered one is given
+        while True:
+            self.student_id = input("\nEnter your Student ID: ").strip()
+            # Ensures the given student id is registered
+            for student in self.student_list:
+                if student['stdID'] == self.student_id:
+                    return
 
     def setStudentInfos(self):
         """ Save student information relevant to the user """
@@ -177,6 +192,7 @@ class App:
 
     def isStudentRegistered(self):
         """ Checks if the student information given is registered in the student details csv """
+        # Ensures the student information given has a match in the database (student details csv)
         for student in self.student_list:
             if student["stdID"] != self.student_id:
                 continue
@@ -197,7 +213,7 @@ class App:
                 degree_without_digits = ''.join(i for i in row["Degree"] if not i.isdigit()).strip()
                 if row["Level"] in self.student_level and degree_without_digits in self.student_degree:
                     self.student_grades.append(row)
-        # Convert term and grade into int
+        # Convert term and grade into int, so they can perform arithmetic operations
         for data in self.student_grades:
             data["Term"] = int(data["Term"])
             data["Grade"] = int(data["Grade"])
@@ -206,7 +222,7 @@ class App:
     def setHistory(self):
         """ Read the csv file of the student's previous request and save it in history """
         filename = f"std{self.student_id}PreviousRequest.txt"
-        # If the previous request txt file of the student doesn't exists then do nothing
+        # If the previous request txt file of the student doesn't exists, then this is probably the user's first time, so do nothing
         if not os.path.exists(filename):
             return
         # Open the previous request txt file of the student
@@ -223,7 +239,7 @@ class App:
                     "date": line[1],
                     "time": line[2]
                 }
-                # Append the request in history
+                # Append the each request in history list
                 self.history.append(request)
 
     
@@ -241,27 +257,42 @@ class App:
 
     def recordRequest(self, request):
         """ Record this request with the current date and time, save it in history list via append """
+        # Get the current date and time
         today = date.today()
         now = datetime.now()
-        new_h = {
+        # Create a dictionary with the request, date, and time, then append it to history list
+        new_request = {
             "req": request,
             "date": str(today.strftime("%d/%m/%Y")),
             "time": f"{now.strftime('%H:%M')}"
         }
-        self.history.append(new_h)
+        self.history.append(new_request)
         self.saveHistory()
         # Increment the number of requests
         self.num_of_request += 1
 
     def menuFeature(self):
         """ Show all available options in menu. Asks for a choice, then redirect to that feature """
-        print('Student Transcript Generation System\n====================================================\n1. Student Details\n2. Statistics\n3. Transcript based on major courses\n4. Transcript based on minor courses\n5. Full transcript\n6. Previous transcript requests\n7. Select another student\n8. Terminate system\n====================================================')
+        # Show all available options in menu
+        print(
+            "Student Transcript Generation System"
+            "\n===================================================="
+            "\n1. Student Details"
+            "\n2. Statistics"
+            "\n3. Transcript based on major courses"
+            "\n4. Transcript based on minor courses"
+            "\n5. Full transcript"
+            "\n6. Previous transcript requests"
+            "\n7. Select another student"
+            "\n8. Terminate system"
+            "\n===================================================="
+        )
         # Asks the user what to do, then redirects it to that feature
         self.menuManager()
 
 
     def detailsFeature(self, student_id, student):
-        """ Display Details and save it in a text file """
+        """ Display details and save it in a text file """
         text = (
             f"Name: {student['Name']}"
             f"\nstdID: {student_id}"
@@ -270,18 +301,16 @@ class App:
             f"\nCollege(s): {', '.join(student['Colleges'])}"
             f"\nDepartment(s): {', '.join(student['Departments'])}"
         )
-
-
+        # Print and write details about the student
         print(text)
         with open(f'std{self.student_id}Details.txt', 'w') as file: 
             file.write(text)
-        
+
         # Record this request
         self.recordRequest("Details")
 
     def statisticsFeature(self, student_id, student, student_grades):
         """ Show some statistics about the student's grade/record. Examples are average grade per term, minimum and maximum grades. """
-
         text= ""
         for level in sorted(student["Levels"], reverse=True):
             # Initialize variables
