@@ -87,8 +87,14 @@ class App:
 
 
     def setStudentList(self):
-        """ Read student details CSV file, save each row as a dictionary then append that dictionary to student l """
-        with open('studentDetails.csv') as file:
+        """ Read student details CSV file, save each row as a dictionary then append that dictionary to student list """
+        filename = 'studentDetails.csv'
+        # Ensures the csv containing student information exists
+        if not os.path.exists(filename):
+            sys.exit("ERROR: Database is not found. (Student Details CSV)\nClosing the program ...")
+
+        #  Read student details CSV file, save each row as a dictionary, then append to student lists
+        with open(filename) as file:
             reader = csv.DictReader(file)
             for row in reader:
                 self.student_list.append(row)
@@ -256,11 +262,11 @@ class App:
         self.menuManager()
 
 
-    def detailsFeature(self, student):
+    def detailsFeature(self, student_id, student):
         """ Display Details and save it in a text file """
         text = (
             f"Name: {student['Name']}"
-            f"\nstdID: {self.student_id}"
+            f"\nstdID: {student_id}"
             f"\nLevel(s): {', '.join(student['Levels'])}"
             f"\nNumber of Terms: {student['Num of terms']}"
             f"\nCollege(s): {', '.join(student['Colleges'])}"
@@ -275,13 +281,13 @@ class App:
         # Record this request
         self.recordRequest("Details")
 
-    def statisticsFeature(self, student_level, student_id):
+    def statisticsFeature(self, student_id, student, student_grades):
         """ Show some statistics about the student's grade/record. Examples are average grade per term, minimum and maximum grades. """
 
         text= ""
-        for level in sorted(self.student["Levels"], reverse=True):
+        for level in sorted(student["Levels"], reverse=True):
             # Initialize variables
-            grades_info = [grade for grade in self.student_grades if grade["Level"] == level]
+            grades_info = [grade for grade in student_grades if grade["Level"] == level]
             grades = [grade["Grade"] for grade in grades_info]
             average = int(sum(grades) / len(grades))
             max_grade = max(grades)
@@ -337,20 +343,20 @@ class App:
         self.recordRequest("Statistics")
 
 
-    def majorTranscriptFeature(self, student_level, student_id, student):
+    def majorTranscriptFeature(self, student_id, student, student_grades):
         """ Shows the transcript of the student's major courses """
         # Initialize variables
-        major_courses = [grade for grade in self.student_grades if grade["courseType"] == "Major"]
-        minor_courses = [grade for grade in self.student_grades if grade["courseType"] == "Minor"]
+        major_courses = [grade for grade in student_grades if grade["courseType"] == "Major"]
+        minor_courses = [grade for grade in student_grades if grade["courseType"] == "Minor"]
 
         name = student['Name']
         student_id = student_id
         num_of_major = str(len(major_courses))
         num_of_minor = str(len(minor_courses))
-        colleges = ', '.join(sorted(self.student['Colleges'], reverse=True))
-        departments = ', '.join(sorted(self.student['Departments'], reverse=True))
-        levels = ', '.join(sorted(self.student['Levels'], reverse=True))
-        last_term = max([grade["Term"] for grade in self.student_grades])
+        colleges = ', '.join(sorted(student['Colleges'], reverse=True))
+        departments = ', '.join(sorted(student['Departments'], reverse=True))
+        levels = ', '.join(sorted(student['Levels'], reverse=True))
+        last_term = max([grade["Term"] for grade in student_grades])
 
         text = (
             f"{'Name: ' + name: <50} student ID: {student_id}\n"
@@ -398,20 +404,20 @@ class App:
         self.recordRequest("Major")
 
 
-    def minorTranscriptFeature(self, student_level, student_id, student):
+    def minorTranscriptFeature(self, student_id, student, student_grades):
         """ Shows the transcript of the student's minor courses """
         # Initialize variables
-        major_courses = [grade for grade in self.student_grades if grade["courseType"] == "Major"]
-        minor_courses = [grade for grade in self.student_grades if grade["courseType"] == "Minor"]
+        major_courses = [grade for grade in student_grades if grade["courseType"] == "Major"]
+        minor_courses = [grade for grade in student_grades if grade["courseType"] == "Minor"]
 
         name = student['Name']
         student_id = student_id
         num_of_major = str(len(major_courses))
         num_of_minor = str(len(minor_courses))
-        colleges = ', '.join(sorted(self.student['Colleges'], reverse=True))
-        departments = ', '.join(sorted(self.student['Departments'], reverse=True))
-        levels = ', '.join(sorted(self.student['Levels'], reverse=True))
-        last_term = max([grade["Term"] for grade in self.student_grades])
+        colleges = ', '.join(sorted(student['Colleges'], reverse=True))
+        departments = ', '.join(sorted(student['Departments'], reverse=True))
+        levels = ', '.join(sorted(student['Levels'], reverse=True))
+        last_term = max([grade["Term"] for grade in student_grades])
 
         text = (
             f"{'Name: ' + name: <50} student ID: {student_id}\n"
@@ -458,21 +464,21 @@ class App:
         self.recordRequest("Minor")
 
 
-    def fullTranscriptFeature(self, student_level, student_id, student):
+    def fullTranscriptFeature(self, student_id, student, student_grades):
         """ Shows the transcript of the student's courses (both major and minor courses) """
 
         # Initialize variables
-        major_courses = [grade for grade in self.student_grades if grade["courseType"] == "Major"]
-        minor_courses = [grade for grade in self.student_grades if grade["courseType"] == "Minor"]
+        major_courses = [grade for grade in student_grades if grade["courseType"] == "Major"]
+        minor_courses = [grade for grade in student_grades if grade["courseType"] == "Minor"]
 
         name = student['Name']
         student_id = student_id
         num_of_major = str(len(major_courses))
         num_of_minor = str(len(minor_courses))
-        colleges = ', '.join(sorted(self.student['Colleges'], reverse=True))
-        departments = ', '.join(sorted(self.student['Departments'], reverse=True))
-        levels = ', '.join(sorted(self.student['Levels'], reverse=True))
-        last_term = max([grade["Term"] for grade in self.student_grades])
+        colleges = ', '.join(sorted(student['Colleges'], reverse=True))
+        departments = ', '.join(sorted(student['Departments'], reverse=True))
+        levels = ', '.join(sorted(student['Levels'], reverse=True))
+        last_term = max([grade["Term"] for grade in student_grades])
 
         text = (
             f"{'Name: ' + name: <50} student ID: {student_id}\n"
@@ -495,7 +501,7 @@ class App:
 
             grades_per_term = []
             course_text = ""
-            for grade in self.student_grades:
+            for grade in student_grades:
                 if term == grade["Term"]:
                     grades_per_term.append(grade["Grade"])
                     course_text += f"{grade['courseID']:^12} {grade['courseName']:^43} {grade['creditHours']:^12} {grade['Grade']:^8}\n"
@@ -512,14 +518,14 @@ class App:
             text += f"\n{'Overall Average: ' + overall_average:<58} Term Average: {average_grade_per_term}\n\n"
 
         print(text)
-        with open(f"std{self.student_id}FullTranscript.txt", "w") as file:
+        with open(f"std{student_id}FullTranscript.txt", "w") as file:
             file.write(text)
 
         # Record this request
         self.recordRequest("Full")
 
 
-    def previousRequestsFeature(self, history, student_id):
+    def previousRequestsFeature(self, history):
         """ Shows the previous requests of the student """
         # Print the header
         print("{:^12} {:^15} {:^7}".format('Request','Date','Time'))
@@ -558,9 +564,9 @@ class App:
         self.setHistory()
 
 
-    def terminateFeature(self):
+    def terminateFeature(self, num_of_request):
         """ Terminates/exit/close the program """
-        print(f"There was a total of {self.num_of_request} requests this session.")
+        print(f"There was a total of {num_of_request} requests this session.")
         print("The program is closing ...\nGoodbye!\n")
         sys.exit()
 
@@ -573,21 +579,21 @@ class App:
         # Redirect to specific feature based on user choice
         match choice:
             case "1":
-                self.detailsFeature(self.student)
+                self.detailsFeature(self.student_id, self.student)
             case "2":
-                self.statisticsFeature(self.student_level, self.student_id)
+                self.statisticsFeature(self.student_id, self.student, self.student_grades)
             case "3":
-                self.majorTranscriptFeature(self.student_level, self.student_id, self.student)
+                self.majorTranscriptFeature(self.student_id, self.student, self.student_grades)
             case "4":
-                self.minorTranscriptFeature(self.student_level, self.student_id, self.student)
+                self.minorTranscriptFeature(self.student_id, self.student, self.student_grades)
             case "5":
-                self.fullTranscriptFeature(self.student_level, self.student_id, self.student)
+                self.fullTranscriptFeature(self.student_id, self.student, self.student_grades)
             case "6":
-                self.previousRequestsFeature(self.history, self.student_id)
+                self.previousRequestsFeature(self.history)
             case "7":
                 self.newStudentFeature()
             case "8":
-                self.terminateFeature()
+                self.terminateFeature(self.num_of_request)
             case _:
                 print("Invalid Input!")
         # After every feature, add a buffer to let user read, then clear screen and go back to menu screen
