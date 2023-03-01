@@ -42,7 +42,7 @@ class App:
 
 
     def startFeature(self):
-        """ Prompt user for their student level, type. load student data from csv files. """
+        """ Prompt user for their student level, degree, and student ID. load student data from csv files. """
         # Resets the variables to give space for new student
         self.resetVariables()
         
@@ -101,7 +101,7 @@ class App:
 
 
     def setStudentLevel(self):
-        """ Prompt user to select student level and then ask for type/degree if they have one """
+        """ Prompt user to select student level and then ask for degree if they have one """
         LEVELS = {
             "U": "Undergraduate",
             "G": "Graduate",
@@ -135,7 +135,7 @@ class App:
 
 
     def setDegreeLevel(self):
-        """ Prompt user to enter degree level """
+        """ Prompt user to enter degree """
         DEGREES = {
             "M": "Master",
             "D": "Doctorate",
