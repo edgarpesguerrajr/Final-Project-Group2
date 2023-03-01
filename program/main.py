@@ -7,8 +7,7 @@ Siegfred Lorelle Mina - 2021-05794-MN-0 - 25%
 """
 
 # TODO: ADD COMMENTS
-# TODO: PASS ARGUMENTS WHEN CALLING METHODS IN MENU MANAGER
-# TODO: USE INTERPOLATED STRING (F-STRING) INSTEAD OF FORMAT FUNCTION
+# Rename variables
 
 import csv
 import sys
@@ -25,7 +24,7 @@ class App:
     def __init__(self):
         """ Initialize all variables, then assign them in start feature """
         self.student_level = set()
-        self.student_type = set()
+        self.student_degree = set()
         self.student_id = ""
         self.student = {
             "Name": "",
@@ -76,7 +75,7 @@ class App:
     def resetVariables(self):
         """ Resets the variables to give space for new student """
         self.student_level.clear()
-        self.student_type.clear()
+        self.student_degree.clear()
         self.student["Name"] = ""
         self.student["Levels"].clear()
         self.student["Colleges"].clear()
@@ -121,7 +120,7 @@ class App:
             print("\nPlease use: U/G/B")
         
         if "U" in self.student_level:
-            self.student_type.add("BS")
+            self.student_degree.add("BS")
         if "G" in self.student_level:
             self.setDegreeLevel()
 
@@ -133,15 +132,15 @@ class App:
             "D": "Doctorate",
         }
 
-        # Ask for their degree/type
-        print("\nSelect your level type:\nMaster (M)\nDoctorate (D)\nBoth (B0)")
+        # Ask for their degree
+        print("\nSelect your degree:\nMaster (M)\nDoctorate (D)\nBoth (B0)")
         while True:
             degree = input("\nChoice: ").upper()
             if degree in DEGREES:
-                self.student_type.add(degree)
+                self.student_degree.add(degree)
                 break
             elif degree == "B0":
-                self.student_type.update({"M", "D"})
+                self.student_degree.update({"M", "D"})
                 break
             print("\nPlease use: M/D/B0")
 
@@ -166,7 +165,7 @@ class App:
                 continue
             # Degrees in the student details csv has digits, so strip them to match degree inputted by the user
             degree_without_digits = ''.join(i for i in student["Degree"] if not i.isdigit()).strip()
-            if degree_without_digits not in self.student_type:
+            if degree_without_digits not in self.student_degree:
                 continue
 
             # If student matches the information given by user then save the information in student dictionary
@@ -184,7 +183,7 @@ class App:
             if student["Level"] not in self.student_level:
                 continue
             degrees_without_digits = ''.join(i for i in student["Degree"] if not i.isdigit()).strip()
-            if degrees_without_digits not in self.student_type:
+            if degrees_without_digits not in self.student_degree:
                 continue
             return True
         return False
@@ -196,14 +195,13 @@ class App:
             reader = csv.DictReader(file)
             for row in reader:
                 degree_without_digits = ''.join(i for i in row["Degree"] if not i.isdigit()).strip()
-                if row["Level"] in self.student_level and degree_without_digits in self.student_type:
+                if row["Level"] in self.student_level and degree_without_digits in self.student_degree:
                     self.student_grades.append(row)
         # Convert term and grade into int
         for data in self.student_grades:
             data["Term"] = int(data["Term"])
             data["Grade"] = int(data["Grade"])
 
-        # [print(i) for i in self.student_grades]
 
     def setHistory(self):
         """ Read the csv file of the student's previous request and save it in history """
@@ -234,11 +232,11 @@ class App:
         # Create a txt file with a the student's name and previous request in its filename, if it exists, then overwrite it
         with open(f"std{self.student_id}PreviousRequest.txt", 'w') as file:
             # Write the header
-            file.write("{:^12} {:^15} {:^7}\n".format('Request','Date','Time'))
+            file.write(f"{'Request':^12} {'Date':^15} {'Time':^7}\n")
             file.write("=========================================\n")
             # Loop through history and write each request
             for request in self.history:
-                file.write("{:^12} {:^15} {:^7}\n".format(request['req'], request['date'], request['time']))
+                file.write(f"{request['req']:^12} {request['date']:^15} {request['time']:^7}\n")
 
 
     def recordRequest(self, request):
@@ -528,11 +526,11 @@ class App:
     def previousRequestsFeature(self, history):
         """ Shows the previous requests of the student """
         # Print the header
-        print("{:^12} {:^15} {:^7}".format('Request','Date','Time'))
+        print(f"{'Request':^12} {'Date':^15} {'Time':^7}")
         print("=========================================")
         # Loop through history and print and write each request
         for request in history:
-            print ("{:^12} {:^15} {:^7}".format(request['req'], request['date'], request['time']))
+            print (f"{request['req']:^12} {request['date']:^15} {request['time']:^7}")
         # Save the requests in history in a text file
         self.saveHistory()
 
