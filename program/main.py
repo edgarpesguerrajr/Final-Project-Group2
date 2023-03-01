@@ -87,7 +87,11 @@ class App:
         filename = 'studentDetails.csv'
         # Ensures the csv containing student information exists
         if not os.path.exists(filename):
-            sys.exit("ERROR: Database is not found. (Student Details CSV)\nClosing the program ...")
+            print(
+                "\nERROR: Database is not found."
+                "\n\t(studentDetails.csv is missing)"
+            )
+            sys.exit("\nClosing the program ...\n")
 
         #  Read student details CSV file, save each row as a dictionary, then append to student lists
         with open(filename) as file:
@@ -203,6 +207,16 @@ class App:
 
     def setStudentGrade(self):
         """ Read the csv file of the student, then save it to student grades """
+        # Ensures the csv containing student information exists
+        filename = f'{self.student_id}.csv'
+        if not os.path.exists(filename):
+            print(
+                "\nERROR: The student's record is not found." 
+                "\n\t(csv file with student ID as file name is missing)"
+            )
+            sys.exit("\nClosing the program ...\n")
+
+
         # Read the record/grade of the student, save each row as dictionary, then append it to student grades
         with open(f'{self.student_id}.csv', "r") as file:
             reader = csv.DictReader(file)
