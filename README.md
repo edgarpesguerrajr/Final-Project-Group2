@@ -2,7 +2,7 @@
 
 #### Description: A menu-driven program with a command line interface (CLI) that prints and generates transcripts of a student into text files.
 
-#### Submitted as Lab Final Project in the Polytechnic University of the Philippines - Sta. Mesa - A.Y. 2022-2023 in the course CMPE 30052 - Data Structures and Algorithm
+#### Submitted as Lab Final Project in the Polytechnic University of the Philippines - Sta. Mesa - A.Y. 2022-2023 in the course CMPE 30052 - Data Structures and Algorithm.
 
 ---
 
@@ -107,7 +107,7 @@ Acts as a login system. Prompts the user for student level (U, G, or B). If unde
 
 - #### Menu Feature
 
-Acts as the main menu of the program. Users will only reach the main menu after successfully logging in via the start feature. Shows all available option/feature. Prompts the user for a feature choice, then redirect to that feature. The program checks for validity. If the given feature choice is invalid, then the program informs that it is invalid, and redirects to the main menu.
+Acts as the main menu of the program. Users will only reach the main menu after successfully logging in via the start feature or change student feature. Shows all available option/feature. Prompts the user for a feature choice, then redirect to that feature. The program checks for validity. If the given feature choice is invalid, then the program informs that it is invalid, and redirects back to the main menu.
 
 
 ![Menu Feature](/img/menu-feature.PNG)
@@ -137,7 +137,7 @@ Statistics information shown includes the overall average for all terms, the ave
 
 Shows the transcript of the student based on major courses and the selected level and degree when logging in. The major transcript is divided into terms.
 
-General information is shown at the top. It includes name, student ID, college(s), department(s), number of major courses, number of minor courses, level(s), and number of terms. After the general information, the courses per term are shown. Each course in a term includes course ID, course name, credit hours, and grade. Each term shows the overall average of all major courses and the average of all major courses in that term. In cases where the term does not have a major course (only minor courses), then it will be blank with a message saying that there is no registered major course in that term. The data are from the CSV containing the student record/grade with the title name of <student ID>.csv.
+General information is shown at the top. It includes name, student ID, college(s), department(s), number of major courses, number of minor courses, level(s), and number of terms. After the general information, the courses per term are shown. Each course in a term includes course ID, course name, credit hours, and grade. Each term shows the overall average of all major courses and the average of all major courses in that term. In cases where the term does not have a major course (only minor courses), then it will be blank with a message saying that there is no registered major course in that term. The data are from the CSV containing the student record/grade with the filename of <student ID>.csv.
 
 ![Major Transcript Feature](/img/major-transcript-feature.PNG)
 
@@ -147,7 +147,7 @@ General information is shown at the top. It includes name, student ID, college(s
 
 It works exactly the same as the major transcript, the only difference is that it only considers minor courses. It shows the transcript of the student based on minor courses and the selected level and degree when logging in. The minor transcript is divided into terms.
 
-General information is shown at the top. It includes name, student ID, college(s), department(s), number of major courses, number of minor courses, level(s), and number of terms. After the general information, the courses per term are shown. Each course in a term includes course ID, course name, credit hours, and grade. Each term shows the overall average of all minor courses and the average of all minor courses in that term. In cases where the term does not have a minor course (only major courses), then it will be blank with a message saying that there is no registered minor course in that term. The data are from the CSV containing the student record/grade with the title name of <student ID>.csv.
+General information is shown at the top. It includes name, student ID, college(s), department(s), number of major courses, number of minor courses, level(s), and number of terms. After the general information, the courses per term are shown. Each course in a term includes course ID, course name, credit hours, and grade. Each term shows the overall average of all minor courses and the average of all minor courses in that term. In cases where the term does not have a minor course (only major courses), then it will be blank with a message saying that there is no registered minor course in that term. The data are from the CSV containing the student record/grade with the filename of <student ID>.csv.
 
 ![Minor Transcript Feature](/img/minor-transcript-feature.PNG)
 
@@ -155,9 +155,9 @@ General information is shown at the top. It includes name, student ID, college(s
 
 - #### Full Transcript Feature
 
-It works exactly the same as major, and minor transcript, the only difference is that it only considers both major and minor courses (in other words, all courses). It shows the transcript of the student based on the selected level and degree when logging in. The full transcript is divided into terms.
+It works exactly the same as major, and minor transcript, the only difference is that it considers both major and minor courses (in other words, all courses). It shows the transcript of the student based on the selected level and degree when logging in. The full transcript is divided into terms.
 
-General information is shown at the top. It includes name, student ID, college(s), department(s), number of major courses, number of minor courses, level(s), and number of terms. After the general information, the courses per term are shown. Each course in a term includes course ID, course name, credit hours, and grade. Each term shows the overall average of all courses and the average of all courses in that term. In cases where the term does not have any course, then it will be blank with a message saying that there is no registered course in that term. The data are from the CSV containing the student record/grade with the title name of <student ID>.csv.
+General information is shown at the top. It includes name, student ID, college(s), department(s), number of major courses, number of minor courses, level(s), and number of terms. After the general information, the courses per term are shown. Each course in a term includes course ID, course name, credit hours, and grade. Each term shows the overall average of all courses and the average of all courses in that term. In cases where the term does not have any course, then it will be blank with a message saying that there is no registered course in that term. The data are from the CSV containing the student record/grade with the filename of <student ID>.csv.
 
 ![Full Transcript Feature](/img/full-transcript-feature.PNG)
 
@@ -165,7 +165,7 @@ General information is shown at the top. It includes name, student ID, college(s
 
 - #### Previous Requests Feature
 
-Shows all requests made by the user/student accompanied by a date and time in which the request was made. Requests that are recorded are details, statistics, major transcript, minor transcript, and full transcript. All of the requests mentioned will be recorded here. The previous requests of the student are saved across sessions because it is saved via a text file.
+Shows all requests made by the user/student, accompanied by a date and time in which the request was made. Requests that are recorded are details, statistics, major transcript, minor transcript, and full transcript. The previous requests of the student are saved across sessions because it is saved via a text file.
 
 ![Previous Requests Feature](/img/previous-requests-feature.PNG)
 
@@ -173,7 +173,7 @@ Shows all requests made by the user/student accompanied by a date and time in wh
 
 - #### New Student Feature
 
-Acts as the log-out system. Clear all information recorded from the previous students (requested information is still saved via text files) to give space for the new student. With space for the new student, prompt for student information of the new student. Student information prompted are student level degree, and student ID (works exactly as the login system in the start feature). The validity of inputs is checked. If the inputs are indeed valid then the login is successful so redirect to the main menu.
+Acts as the log-out system. Clear all information recorded from the previous students (requested information is still saved via text files) to give space for the new student. With space for the new student, prompt for student information of the new student. Student information prompted is student level, degree, and student ID (works exactly as the login system in the start feature). The validity of inputs is checked. If the inputs are indeed valid then the login is successful so redirect to the main menu.
 
 ![New Student Feature](/img/new-student-feature.PNG)
 
