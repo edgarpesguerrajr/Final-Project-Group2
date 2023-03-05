@@ -30,7 +30,7 @@
 - [Credits and References]()
 - [Authors Info]()
 
---- 
+---
 
 ## Description
 A menu-driven program with a command line interface (CLI) that prints and generates transcripts of a student into text files. Registered students are listed in a CSV file with the filename 'studentDetails.csv'. Each student has another CSV file with a filename of their student ID (e.g., 2021-05794-MN-0.csv) where their grades are listed. The program reads and filters information in the CSV files based on the student information given by the user. Each request creates a text file where the information requested is saved. Each request is recorded in history via the 'previous requests feature' with a date and time in which the request was made.
@@ -45,20 +45,36 @@ A menu-driven program with a command line interface (CLI) that prints and genera
 #### Installation
 - Fork [this repository](https://github.com/edgarpesguerrajr/transcript-generation-system). [(Not sure how?)](https://docs.github.com/en/get-started/quickstart/fork-a-repo#forking-a-repository)
 - Install [python](https://www.python.org/downloads/).
-- Try running the command below on the directory where main.py is saved.
+- Try running the command below on the 'program' directory (where main.py is saved.)
     - For Windows and Mac:
         ```
         python main.py
         ```
     - For Linux:
         ```
-        # 'python3' might be different if on newer version of python
+        # 'python3' might be different if on a newer version of python
         python3 main.py
         ```
 - If an error occurs, try following the steps again.
 
 #### Configuration
-<!-- HOW TO EDIT OR RECREATE CSV FILES, TELLING FORMAT -->
+- **To edit the students enrolled/registered:**
+    - Open studentDetails.csv in the 'program' directory.
+    - Feel free to edit the values however, the following format must be followed.
+        - Level must only be U or G. (undergraduate or graduate)
+        - Degree must only be BS, M, or D, but digits after it is allowed. (bachelor, master, or degree)
+        - Degrees of undergraduates (U) must be bachelor (BS).
+        - Degrees of graduates (G) can either be master, or doctorate (M or D).
+        - Terms must be an integer.
+- **To edit the grades of students:**
+    - In the 'program' directory, rename \<studentID>.csv to the new student ID registered in studentDetails.csv. (Make sure the filename of the CSV is exactly the student ID registered in studentDetails.csv)
+    - Open the \<studentID>.csv.
+    - Feel free to edit the values however, the following format must be followed.
+        - Level must only be U or G. (undergraduate or graduate)
+        - Degree must only be BS, M, or D, but digits after it is allowed. (bachelor, master, or degree)
+        - courseType can only be Major or Minor.
+        - term, creditHours, and Grade must be an integer.
+- **Make sure that all student information in studentDetails.csv matches the information in their own CSV. (\<studentID>.csv)**.
 
 ---
 
