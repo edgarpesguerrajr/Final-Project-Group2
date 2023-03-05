@@ -81,22 +81,46 @@ A menu-driven program with a command line interface (CLI) that prints and genera
 ## Features
 
 #### Start Feature
+Prompts user for student level (U, G, or B). Automatically assign bachelor (BS) as the degree if undergraduate (U). If graduate, prompts for student degree (M, D, B0). Finally, prompts for student ID. The program checks user inputs validity. If input is, invalid the program prompts again until a valid input is given. As a last validity check, the program ensures that the given student information exists in studentDetails.csv.
+
+![Start Feature](/img/start-feature.PNG)
 
 #### Menu Feature
 
+![Menu Feature](/img/menu-feature.PNG)
+
+
 #### Details Feature
+
+![Details Feature](/img/details-feature.PNG)
 
 #### Statistics Feature
 
+![Statistics Feature](/img/statistics-feature.PNG)
+
 #### Major Transcript Feature
+
+![Major Transcript Feature](/img/major-transcript-feature.PNG)
 
 #### Minor Transcript Feature
 
-#### Previous Feature
+![Minor Transcript Feature](/img/minor-transcript-feature.PNG)
+
+#### Full Transcript Feature
+
+![Full Transcript Feature](/img/full-transcript-feature.PNG)
+
+#### Previous Requests Feature
+
+![Previous Requests Feature](/img/previous-requests-feature.PNG)
 
 #### New Student Feature
 
+![New Student Feature](/img/new-student-feature.PNG)
+
 #### Terminate Feature
+
+![Terminate Feature](/img/terminate-feature.PNG)
 
 ---
 
