@@ -23,7 +23,7 @@
     - [Start Feature](#start-feature)
     - [Menu Feature](#menu-feature)
     - [Details Feature](#details-feature)
-    - [Statistics Feature](#start-feature)
+    - [Statistics Feature](#statistics-feature)
     - [Major Transcript Feature](#major-transcript-feature)
     - [Minor Transcript Feature](#minor-transcript-feature)
     - [Full Transcript Feature](#full-transcript-feature)
@@ -71,7 +71,7 @@ A menu-driven program with a command line interface (CLI) that prints and genera
 
 - **To edit the students enrolled/registered:**
     - Open studentDetails.csv in the 'program' directory.
-    - Feel free to edit the values however, the following format must be followed.
+    - Feel free to edit the values. However, the following format must be followed.
         - Level must only be U or G. (undergraduate or graduate)
         - Degree must only be BS, M, or D, but digits after it is allowed. (bachelor, master, or degree)
         - Degrees of undergraduates (U) must be bachelor (BS).
@@ -81,13 +81,13 @@ A menu-driven program with a command line interface (CLI) that prints and genera
 - **To edit the grades of students:**
     - In the 'program' directory, rename \<student ID>.csv to the new student ID registered in studentDetails.csv. (Make sure the filename of the CSV is exactly the student ID registered in studentDetails.csv)
     - Open the \<student ID>.csv.
-    - Feel free to edit the values however, the following format must be followed.
+    - Feel free to edit the values. However, the following format must be followed.
         - Level must only be U or G. (undergraduate or graduate)
         - Degree must only be BS, M, or D, but digits after it is allowed. (bachelor, master, or degree)
         - courseType can only be Major or Minor.
         - term, creditHours, and Grade must be an integer.
 
-- **Make sure that all student information in studentDetails.csv matches the information in their own CSV. (\<student ID>.csv)**.
+- **Make sure that all student in the studentDetails.csv has their own CSV (\<student ID>.csv), and that the information in both CSV files match.**
 
 [Back to the Top](#transcript-generation-system)
 
